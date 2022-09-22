@@ -2,11 +2,11 @@
 
 <!---Esses são exemplos. Veja https://shields.io para outras pessoas ou para personalizar este conjunto de escudos. Você pode querer incluir dependências, status do projeto e informações de licença aqui--->
 
-![GitHub repo size](https://img.shields.io/github/repo-size/SrGambiarra/ESP8266-AutomatedIrrigation?style=for-the-badge)
-![GitHub language count](https://img.shields.io/github/languages/count/SrGambiarra/ESP8266-AutomatedIrrigation?style=for-the-badge)
-![GitHub forks](https://img.shields.io/github/forks/SrGambiarra/ESP8266-AutomatedIrrigation?style=for-the-badge)
-![Bitbucket open issues](https://img.shields.io/bitbucket/issues/SrGambiarra/ESP8266-AutomatedIrrigation?style=for-the-badge)
-![Bitbucket open pull requests](https://img.shields.io/bitbucket/pr-raw/SrGambiarra/ESP8266-AutomatedIrrigation?style=for-the-badge)
+![GitHub repo size](https://img.shields.io/github/repo-size/Heitor-Tasso/ESP8266-AutomatedIrrigation?style=for-the-badge)
+![GitHub language count](https://img.shields.io/github/languages/count/Heitor-Tasso/ESP8266-AutomatedIrrigation?style=for-the-badge)
+![GitHub forks](https://img.shields.io/github/forks/Heitor-Tasso/ESP8266-AutomatedIrrigation?style=for-the-badge)
+![Bitbucket open issues](https://img.shields.io/bitbucket/issues/Heitor-Tasso/ESP8266-AutomatedIrrigation?style=for-the-badge)
+![Bitbucket open pull requests](https://img.shields.io/bitbucket/pr-raw/Heitor-Tasso/ESP8266-AutomatedIrrigation?style=for-the-badge)
 
 <img src="exemplo-image.png" alt="exemplo imagem">
 
@@ -16,11 +16,10 @@
 
 O projeto ainda está em desenvolvimento e as próximas atualizações serão voltadas nas seguintes tarefas:
 
-- [x] Enviar e receber informações do ESP8266
-- [x] Ter conexões simultâneas e fazer se comunicarem
-- [x] Desenhar todo o jogo em um Display ISP conectado ao ESP8266
-- [ ] Adicionar a opção de poder utlizar o Wifi residencial
-- [ ] Fazer com que o jogo também "apareça" no GamePad
+- [ ] Opção de poder utlizar o Wifi residencial
+- [ ] Visualização pela plataforma
+- [ ] Média de saúde de cada planta
+- [x] Configurar WiFi pelo celular
 
 ## 💻 Pré-requisitos
 
@@ -39,17 +38,17 @@ Instruções:
  - Configurar para poder utlizar o ESP8266 [esp8266 no arduino ide](https://www.robocore.net/tutoriais/programando-o-esp8266-pela-arduino-ide).
  - Instalar o driver do ESP8266 [como instalar o driver](https://www.blogdarobotica.com/2020/05/26/instalando-driver-serial-para-nodemcu-com-chip-ch340/#:~:text=Caso%20a%20placa%20NODEMCU%20ESP8266,NODEMCU%20ESP8266%20n%C3%A3o%20foi%20reconhecida.&text=Ap%C3%B3s%20a%20conclus%C3%A3o%20do%20download,instala%C3%A7%C3%A3o%2C%20conforme%20a%20Figura%205.).
   - Carregar o programa no ESP8266 [como colocar o programa no esp8266](https://seurobo.com.br/como-enviar-o-programa-para-o-arduino-uno-mega-ou-outros/).
-  - Compilar o GamePad para a sua máquina [compilar apps com Kivy](https://kivy.org/doc/stable/guide/packaging.html) ou instalar utilizando os links mais abaixo.
-  - Agora é só ligar o ESP9266 e entrar no GamePad para se conectar.
+  - Compilar o App MorePlant para a sua máquina [compilar apps com Kivy](https://kivy.org/doc/stable/guide/packaging.html) ou instalar utilizando os links mais abaixo.
+  - Agora é só ligar o ESP9266 e entrar no App para se conectar.
 
-Downloads GamePad:
- - `Windows` -> [Download GamePad]()
- - `Mac` -> [Download GamePad]()
- - `Android` -> [Download GamePad]()
+Downloads MorePlant:
+ - `Windows` -> [Download MorePlant]()
+ - `Mac` -> [Download MorePlant]()
+ - `Android` -> [Download MorePlant]()
 
 ## ☕ Jogando com o ESP8266-AutomatedIrrigation
 
-Para usar o GamePad, siga estas etapas:
+Para usar o MorePlant, siga estas etapas:
 
  - Conecte-se à rede Wifi do ESP8266.
  - Inicialize o App e entre em configurações.
@@ -77,7 +76,7 @@ Agradecemos às seguintes pessoas que contribuíram para este projeto:
   <tr>
     <td align="center">
       <a href="#">
-        <img src="https://avatars.githubusercontent.com/u/87236158?v=4" width="100px;" alt="Foto do SrGambiarra no GitHub"/><br>
+        <img src="https://avatars.githubusercontent.com/u/87236158?v=4" width="100px;" alt="Foto do Heitor-Tasso no GitHub"/><br>
         <sub>
           <b>Heitor Tasso</b>
         </sub>

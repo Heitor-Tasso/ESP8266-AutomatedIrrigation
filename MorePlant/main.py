@@ -2,6 +2,7 @@
 from kivy.app import App
 from kivy.lang import Builder
 from kivy.uix.screenmanager import ScreenManager
+
 from login import Login
 from camera4kivy import Preview
 
@@ -57,13 +58,6 @@ class GameScreens(ScreenManager):
 class Program(App):
     def build(self):
         return GameScreens()
-    
-    def on_stop(self):
-        return print('Parar conexão!')
-        gamepad = self.root.ids.gamepad
-        if gamepad.username:
-            gamepad.exit_game()
-        return super().on_stop()
 
 if __name__ == '__main__':
     Program().run()

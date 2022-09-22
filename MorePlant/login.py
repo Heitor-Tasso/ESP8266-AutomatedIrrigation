@@ -97,13 +97,9 @@ Builder.load_string("""
 
 class Login(Screen):
     can_call_thread = False
-    gamepad = ObjectProperty(None)
-
-    def on_init_input(self, *args):
-        self.manager.current = 'gamepad'
-
+    
     def start_thread_login(self, *args):
-        if self.can_call_thread or self.gamepad is None:
+        if self.can_call_thread:
             return None
         
         username = self.ids.input.ids.input.text
@@ -111,49 +107,12 @@ class Login(Screen):
             return None
 
         self.can_call_thread = True
-        self.gamepad.username = username
         th = Thread(target=self.login_game)
         th.start()
     
     def login_game(self, *args):
-        sucessfull = True
-        gmp = self.gamepad
-        esp = gmp.connect_to_esp(force=True)
-        if gmp.conn is None:
-            gmp.start_server()
-        if esp is None or gmp.conn is None:
-            self.can_call_thread = False
-            self.gamepad.username = ''
-            return False
-        try:
-            esp.send(f'{gmp.index_player}:np:{gmp.username}:{gmp.HOST}:{gmp.PORT}\n'.encode('utf-8'))
-            print('Iniciou!!')
-            Clock.schedule_once(self.gamepad.start_game, 0.5)
-        except (ConnectionAbortedError, socket.timeout, TimeoutError):
-            sucessfull = False
-
-        if sucessfull:
-            try:
-                values = esp.recv(1024).decode('utf-8').strip("\n").split(":")
-            except socket.timeout:
-                values = []
-            print(values)
-            if len(values) < 2:
-                sucessfull = False
-            elif values[0] == "erro":
-                sucessfull = False
-            elif values[0] == "start":
-                # values[1::] == INDEX, LIFES
-                username = self.ids.input.ids.input.text
-                self.gamepad.username = username
-                self.gamepad.index_player = int(values[1])
-                self.gamepad.lifes = int(values[2])
-        else:
-            self.gamepad.username = ''
-        
-        self.gamepad.close_connection_esp(esp)
         self.can_call_thread = False
-        
+    
     def size_login(self, box, size):
         w, h = size
         if w <= dp(340):
