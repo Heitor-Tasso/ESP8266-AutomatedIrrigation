@@ -15,7 +15,6 @@ Builder.load_string("""
 #:import ButtonIcon uix.icons.ButtonIcon
 
 #:import icon utils.icon
-#:import background utils.background
 
 <Login>:
     AnchorLayout:

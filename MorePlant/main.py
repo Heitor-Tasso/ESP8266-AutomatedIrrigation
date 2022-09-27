@@ -4,11 +4,20 @@ from kivy.lang import Builder
 from kivy.uix.screenmanager import ScreenManager
 
 from login import Login
+from user_plant import UserPlant
 from camera4kivy import Preview
 
 Builder.load_string("""
 
 #:import hex kivy.utils.get_color_from_hex
+
+#:import icon utils.icon
+#:import image utils.image
+
+#:import IconInput uix.inputs.IconInput
+#:import ButtonEffect uix.buttons.ButtonEffect
+#:import ButtonIcon uix.icons.ButtonIcon
+#:import AnchorIcon uix.icons.AnchorIcon
 
 # PALLET 1
 #:set super_gray hex('#0D0D0D')
@@ -25,6 +34,8 @@ Builder.load_string("""
 #:set blue hex('#0064CE')
 
 <GameScreens>:
+    UserPlant:
+        name: 'user'    
     Login:
         id: login
         name: 'login'
