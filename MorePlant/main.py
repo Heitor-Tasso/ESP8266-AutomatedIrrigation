@@ -1,11 +1,14 @@
 
 from kivy.app import App
 from kivy.lang import Builder
+from kivy.clock import Clock
+from kivy.core.window import Window
+from uix.triggers import BTrigger
 from kivy.uix.screenmanager import ScreenManager
 
 from login import Login
 from user_plant import UserPlant
-from camera4kivy import Preview
+from uix.camera import QRCode
 
 Builder.load_string("""
 
@@ -39,28 +42,9 @@ Builder.load_string("""
     Login:
         id: login
         name: 'login'
-    Screen:
+    QRCode:
         name: 'camera'
-        on_enter: camera.connect_camera()
-        on_leave: camera.disconnect_camera()
-        BoxLayout:
-            orientation: 'vertical'    
-            Preview:
-                id: camera
-                aspect_ratio: '16:9'
-            AnchorLayout:
-                size_hint_y: None
-                height: '40dp'
-                anchor_x: 'center'
-                ButtonEffect:
-                    text: 'Next'
-                    size_hint_x: None
-                    width: '150dp'
-                    background_color: [0, 0, 0, 0]
-                    color_line: [clear_white, white]
-                    color_effect: light_gray
-                    radius: [dp(15), dp(15), dp(15), dp(15)]
-                    on_press: root.current = root.next()
+
 """)
 
 class GameScreens(ScreenManager):

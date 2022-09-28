@@ -4,7 +4,7 @@ from kivy.uix.screenmanager import Screen
 from kivy.uix.anchorlayout import AnchorLayout
 from kivy.clock import Clock
 from kivy.properties import NumericProperty
-import random
+from uix.triggers import BTrigger
 
 Builder.load_string("""
 
@@ -19,6 +19,7 @@ Builder.load_string("""
 #:import Label kivy.core.text.Label
 
 #:import Clock kivy.clock.Clock
+#:import Window kivy.core.window.Window
 
 <OptionLabel@Label>:
     size_hint_y: None
@@ -36,7 +37,7 @@ Builder.load_string("""
     percent: 0
     on_size: circular_bar._draw()
     on_pos: circular_bar._draw()
-    on_kv_post: Clock.schedule_once(lambda *a: circular_bar._draw(), 1)
+    on_kv_post: Window.bind(on_flip=lambda *a: circular_bar._draw())
 
     BoxLayout:
         orientation: 'vertical'
@@ -103,6 +104,7 @@ Builder.load_string("""
                 ButtonIcon:
                     size: ['30dp', '30dp']
                     source: icon('return')
+                    on_release: root.manager.current = "login"
         BoxLayout:
             orientation: 'vertical'
             BoxLayout:
@@ -112,9 +114,10 @@ Builder.load_string("""
                 canvas:
                 AnchorIcon:
                     ButtonIcon:
-                        size: ['30dp', '30dp']
+                        size: ['35dp', '35dp']
                         source: icon('camera')
-                        on_release: root.open_camera()
+                        on_release: root.manager.current = "camera"
+
                 Widget:
                 BoxLayout:
                     orientation: 'vertical'
@@ -173,10 +176,19 @@ Builder.load_string("""
 """)
 
 class GraphicCircular(AnchorLayout):
+    
     percent = NumericProperty(0)
 
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        Clock.schedule_once(self.config)
+    
+    def config(self, *args):
+        function = self.ids.circular_bar._draw
+        BTrigger(function, 10, 0.2).start()
+
+
 class UserPlant(Screen):
-    def open_camera(self):
-        return None
+    pass
 
 
