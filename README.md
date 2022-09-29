@@ -10,7 +10,7 @@
 
 <img src="exemplo-image.png" alt="exemplo imagem">
 
-> Utilizamos o ESP8266 para fazer um game online de forma local. Podendo jogar com até 5 pessoas simultaneamente utlizando um aparelho celular ou desktop, sem restrições.
+> Utilizamos o ESP8266 para automatizar os cuidados de uma planta, sendo possível visualizar a saúde. Assim, facilitando os cuidados e consequêntemente aumentando a venda de plantas domésticas. 
 
 ### Ajustes e melhorias
 
@@ -46,14 +46,14 @@ Downloads MorePlant:
  - `Mac` -> [Download MorePlant]()
  - `Android` -> [Download MorePlant]()
 
-## ☕ Jogando com o ESP8266-AutomatedIrrigation
+## ☕ Utilizando o ESP8266-AutomatedIrrigation
 
 Para usar o MorePlant, siga estas etapas:
 
- - Conecte-se à rede Wifi do ESP8266.
- - Inicialize o App e entre em configurações.
- - Aperte em Host e escolha quantos jogadores vão ser.
- - Agora é só apertar em iniciar e jogar com os seus amigos.
+ - Conecte-se à rede Wifi que o ESP8266 está conectado.
+ - Inicialize o App e logue com sua conta.
+ - Leia o QRCode do ESP8266 e tira e configure a Planta utilizada.
+ - Agora é só apertar em iniciar e deixar que sua planta seja monitorada.
 
 
 ## 📫 Contribuindo para o ESP8266-AutomatedIrrigation
