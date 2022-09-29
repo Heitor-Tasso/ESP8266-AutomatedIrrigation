@@ -36,15 +36,18 @@ Builder.load_string("""
     source: ''
     icon_size: ['30dp', '30dp']
     color: [1, 1, 1, 1]
+    allow_stretch: True
+    keep_ratio: False
+    mipmap: True
     BoxLayout:
         padding: ['5dp', '5dp', '5dp', '5dp']
         size_hint: [None, None]
         size: root.icon_size
         Image:
             source: root.source
-            allow_stretch: True
-            keep_ratio: False
-            mipmap: True
+            allow_stretch: root.allow_stretch 
+            keep_ratio: root.keep_ratio
+            mipmap: root.mipmap
             color: root.color
 
 <ButtonIcon>:
@@ -72,7 +75,7 @@ class AnchorIcon(AnchorLayout):
     background_color = ListProperty([0, 0, 0, 0])
     radius = ListProperty([0, 0, 0, 0])
 
-class Icon(AnchorLayout):
+class Icon(AnchorIcon):
     pass
 
 class ButtonIcon(ButtonBehavior, Image, EffectBehavior, HoverBehavior):
