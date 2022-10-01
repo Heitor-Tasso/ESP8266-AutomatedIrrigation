@@ -1,11 +1,6 @@
 
 #include "../debug/toolsprint.h"
 
-void print_client(String msg, WiFiClient client) {
-  client.print(msg+"\n");
-  client.flush();
-}
-
 void print_str(String msg, char name_var[]) {
   Serial.print(name_var);
   Serial.println(" = '" + msg + "'");
