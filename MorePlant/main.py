@@ -8,7 +8,7 @@ from kivy.uix.screenmanager import ScreenManager
 
 from login import Login
 from user_plant import UserPlant
-from uix.camera import QRCode
+from uix.camera import PlantCamera, QRCode
 
 Builder.load_string("""
 
@@ -42,7 +42,7 @@ Builder.load_string("""
     Login:
         id: login
         name: 'login'
-    QRCode:
+    PlantCamera:
         name: 'camera'
 
 """)
