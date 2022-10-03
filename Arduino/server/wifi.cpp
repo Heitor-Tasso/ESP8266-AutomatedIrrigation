@@ -45,56 +45,21 @@ String get_content_type(String filename) {
   else if (filename.endsWith(".ico")) { return "image/x-icon"; }
   else if (filename.endsWith(".gz")) { return "application/x-gzip"; }
   else if (filename.endsWith(".jpg")) { return "image/jpeg"; }
-  else if (filename.endsWith(".jpg")) { return "image/png"; }
-  else if (filename.endsWith(".jpg")) { return "image/svg"; }
+  else if (filename.endsWith(".png")) { return "image/png"; }
+  else if (filename.endsWith(".svg")) { return "image/svg"; }
   return "text/plain";
 }
 
-void handle_big_file(String path, int type_send) {
-  File file = SPIFFS.open(path, "r");
-  if (!file) { return; }
-
-  int filesize = file.size();
-  server.sendHeader("Content-Length", String(filesize));
-  server.send(type_send, get_content_type(path), "");
-
-  char buf[1024];
-  while (filesize > 0) {
-    size_t len = std::min((int) (sizeof(buf) - 1), filesize);
-    file.read((uint8_t *)buf, len);
-    server.sendContent_P((const char*) buf, len);
-    filesize -= len;
-  }
-}
 
 void handle_file(String path, int type_send) {
-  int size_file = 0;
-  char* content = read_file(path, &size_file);
-  server.send(type_send, get_content_type(path), content);
-  free(content);
+  File file = open_file(path, "r");
+  if (!file) { return; }
+
+  size_t sent = server.streamFile(file, get_content_type(path));
+  file.close();
 }
 
 void stream_file(class String path, int type) {
-  File file = SPIFFS.open(path, "r");
-  if (!file) { return; }  
-  
-  int filesize = file.size();
-  String contentfile = get_content_type(path);
-  
-  String WebString = "HTTP/1.1 200 OK\r\n";
-  WebString += "Content-Type: " + contentfile + "\r\n";
-  WebString += "Content-Length: " + String(filesize) + "\r\n";
-  server.sendContent(WebString);
-  
-  char buf[1024];
-  while (filesize > 0) {
-    size_t len = std::min((int) (sizeof(buf) - 1), filesize);
-    file.read((uint8_t *)buf, len);
-    server.client().write((const char*) buf, len);
-    filesize -= len;
-  }
-  
-  file.close();
   if (type == 0) {
     server.on(path, [path]() { handle_file(path, 200); });
   }
@@ -102,7 +67,7 @@ void stream_file(class String path, int type) {
     server.onNotFound([path]() { handle_file(path, 404); });
   }
   else if (type == 2) {
-    server.on(path, [path]() { handle_big_file(path, 200); });
+    server.on(path, [path]() { handle_file(path, 400); });
   }
 }
 

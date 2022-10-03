@@ -8,9 +8,10 @@
 
 #include "./spiffs.cpp"
 
+File open_file(String path, String mode);
 void write_file(String text, String path);
 int count_lines_char(char *ptr, int num_bytes);
-char* read_file(String path, int* num_bytes);
+bool read_file(String path, char **ptr, int* num_bytes);
 void openFS();
 
 #endif

@@ -12,7 +12,7 @@ void login_form() {
   if (!server.hasArg("username") || ! server.hasArg("password") \
         || server.arg("username") == NULL || server.arg("password") == NULL) {
     // If the POST request doesn't have username and password data
-    server.send(400, "text/plain", "400: Invalid Request"); // The request is invalid
+    handle_page("/html/invalid_request.html");
     return;
   }
 
@@ -21,7 +21,7 @@ void login_form() {
     handle_page("/html/info_page.html");
   }
   else { // Username and password don't match
-    server.send(401, "text/plain", "401: Unauthorized");
+    handle_page("/index.html?login=invalid");
   }
 }
 
@@ -37,20 +37,22 @@ void setup() {
 
   // FILES
 
-  stream_file("/assets/icons/eye-off-outline.svg", 0);
-  stream_file("/assets/icons/eye-outline.svg", 0);
-  stream_file("/assets/icons/icon_site_large.png", 0);
+  stream_file("/assets/eye-off-out.png", 0);
+  stream_file("/assets/eye-out.png", 0);
+  stream_file("/assets/site_large.png", 0);
+  stream_file("/assets/light-bulb.png", 0);
   
   stream_file("/css/index.css", 0);
 
   stream_file("/index.html", 0);
-  stream_file("/html/not_found.html", 1);
   stream_file("/html/info_page.html", 0);
+  stream_file("/html/not_found.html", 1);
+  stream_file("/html/invalid_request.html", 2);
 
   stream_file("/js/index.js", 0);
-  stream_file("/js/jquery-3.6.0.js", 2);
+  stream_file("/js/jquery-3.6.0.js", 0);
 
-  stream_file("/uix/ciruclar_progress_bar.html", 0);
+  stream_file("/uix/circular_progress_bar.html", 0);
   
   server.on("/server/login", login_form);
 

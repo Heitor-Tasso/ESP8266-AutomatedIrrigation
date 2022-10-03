@@ -89,13 +89,20 @@ body {
 .input-password label {
     right: 68%;
 }
+
 .inputs-content input:focus + label,
 .inputs-content input:not(:placeholder-shown) + label {
     bottom: 50px;
     color: #F5FBF8;
 }
+
+.inputs-content input:focus + label + .show-eye-icon,
+.inputs-content input:not(:placeholder-shown) + label + .show-eye-icon {
+    filter: invert(1);
+    -webkit-filter: invert(1);
+}
+
 .show-eye-icon {
-    background-image: url('../assets/icons/eye-off-outline.svg');
     background-repeat: no-repeat;
     background-color: transparent;
     border: transparent;
@@ -104,11 +111,9 @@ body {
     right: 30%;
     height: 30px;
     width: 30px;
-    filter: invert(1);
-    -webkit-filter: invert(1);
 }
 .show-eye-icon.down {
-    background-image: url('../assets/icons/eye-outline.svg');
+    cursor: pointer;
 }
 .show-eye-icon:hover {
     filter: invert(40%);

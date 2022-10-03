@@ -55,7 +55,9 @@ Builder.load_string("""
                     id: circular_bar
                     cap_style: "SqUArE"
                     thickness: 5
-                    progress_colour: [0.8, 0.8, 0.5, 1]
+                    progress_colour: hex('#ffffff')
+                    background_colour: hex('#fec560')
+                    background: hex('#383637')
                     cap_precision: 100
                     max: 10
                     value: root.percent
@@ -66,57 +68,91 @@ Builder.load_string("""
             id: label
             text: root.name
             halign: 'center'
+            color: [1, 1, 1, 1]
 
 <UserPlant>:
     BoxLayout:
         BoxLayout:
             orientation: 'vertical'
             size_hint_x: None
-            width: '45dp'
+            width: '50dp'
+            canvas.before:
+                Color:
+                    rgba: hex('#1e1c2a')
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+
             AnchorIcon:
                 size_hint_y: None
                 height: '70dp'
+                width: self.parent.width
                 ButtonIcon:
-                    size: ['30dp', '30dp']
+                    size: ['25dp', '25dp']
                     source: icon('box-options')
             AnchorIcon:
                 size_hint_y: None
                 height: '70dp'
+                width: self.parent.width
                 ButtonIcon:
-                    size: ['30dp', '30dp']
+                    size: ['25dp', '25dp']
                     source: icon('home-boll')
             AnchorIcon:
                 size_hint_y: None
                 height: '70dp'
+                width: self.parent.width
                 ButtonIcon:
-                    size: ['30dp', '30dp']
+                    size: ['25dp', '25dp']
                     source: icon('search')
             AnchorIcon:
                 size_hint_y: None
                 height: '70dp'
+                width: self.parent.width
                 ButtonIcon:
-                    size: ['30dp', '30dp']
+                    size: ['25dp', '25dp']
                     source: icon('help')
             Widget:
             AnchorIcon:
                 size_hint_y: None
                 height: '70dp'
+                width: self.parent.width
                 ButtonIcon:
-                    size: ['30dp', '30dp']
+                    size: ['25dp', '25dp']
                     source: icon('return')
                     on_release: root.manager.current = "login"
+
         BoxLayout:
             orientation: 'vertical'
+            canvas.before:
+                Color:
+                    rgba: hex('#002428')
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
             BoxLayout:
                 padding: ('30dp', '0dp', '0dp', '0dp')
                 size_hint_y: None
                 height: '60dp'
-                canvas:
-                AnchorIcon:
-                    ButtonIcon:
-                        size: ['35dp', '35dp']
-                        source: icon('camera')
-                        on_release: root.manager.current = "camera"
+                BoxLayout:
+                    size_hint: [None, None]
+                    size: self.minimum_width, '40dp'
+                    canvas.before:
+                        Color:
+                            rgba: [1, 1, 1, 1]
+                        RoundedRectangle:
+                            pos: self.pos
+                            size: self.size
+                            radius: [dp(15), dp(15), dp(15), dp(15)]
+                    AnchorIcon:
+                        ButtonIcon:
+                            size: ['35dp', '35dp']
+                            source: icon('camera')
+                            on_release: root.manager.current = "camera"
+                    AnchorIcon:
+                        ButtonIcon:
+                            size: ['35dp', '35dp']
+                            source: icon('qrcode')
+                            on_release: root.manager.current = "qrcode"
 
                 Widget:
                 BoxLayout:
@@ -131,15 +167,21 @@ Builder.load_string("""
                         halign: 'center'
             BoxLayout:
                 orientation: 'vertical'
+                padding: ('40dp', '15dp', '0dp', '15dp')
+                size_hint_y: None
+                height: self.minimum_height
+                OptionLabel:
+                    text:'Dados da Planta:'
+                OptionLabel:
+                    text: '     Lorem Ipsum'
+            BoxLayout:
+                spacing: '20dp'
+                padding: ['20dp', '0dp', '0dp', '0dp']
+                Image:
+                    source: image('PlantVase-1', 'png')
                 BoxLayout:
                     orientation: 'vertical'
-                    padding: ('40dp', '15dp', '0dp', '15dp')
-                    size_hint_y: None
-                    height: self.minimum_height
-                    OptionLabel:
-                        text:'Dados da Planta:'
-                    OptionLabel:
-                        text: '     Lorem Ipsum'
+                    size_hint_x: 0.5
                     OptionLabel:
                         text: 'Nome:'
                     OptionLabel:
@@ -148,31 +190,40 @@ Builder.load_string("""
                         text: 'Família:'
                     OptionLabel:
                         text: 'Gênero:'
-                Image:
-                    source: image('plant', 'jpg')
-                Widget:
-                    size_hint_y: None
-                    height: '15dp'
-                Widget:
-                    size_hint_y: None
-                    height: '15dp'
-                    canvas:
-                        Color:
-                            rgba: [1, 0, 0, 1]
-                        Rectangle:
-                            pos: self.pos
-                            size: self.size
-                OptionLabel:
-                    text: 'IP:'
-                BoxLayout:
-                    size_hint_y: None
-                    height: '150dp'
-                    GraphicCircular:
-                        name: 'Luminosidade'
-                    GraphicCircular:
-                        name: 'Temperatura'
-                    GraphicCircular:
-                        name: 'Umidade'
+                    Widget:
+            Widget:
+                size_hint_y: None
+                height: '15dp'
+            BoxLayout:
+                size_hint_y: None
+                height: '30dp'
+                canvas.before:
+                    Color:
+                        rgba: hex('#c1d6fa')
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+                AnchorLayout:
+                    anchor_y: 'center'
+                    OptionLabel:
+                        text: 'IP:'
+                        color: [0, 0, 0, 1]
+            BoxLayout:
+                size_hint_y: None
+                height: '150dp'
+                canvas.before:
+                    Color:
+                        rgba: hex('#4b548a')
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+
+                GraphicCircular:
+                    name: 'Luminosidade'
+                GraphicCircular:
+                    name: 'Temperatura'
+                GraphicCircular:
+                    name: 'Umidade'
 """)
 
 class GraphicCircular(AnchorLayout):

@@ -1,8 +1,17 @@
 
 #include "../server/spiffs.h"
 
+File open_file(String path, String mode) {
+  File file = SPIFFS.open(path, "r");
+  if (!file) {
+    Serial.print("SPIFFS can't open '" + path + "', ");
+    Serial.println("check if this path exist or the length limit.");
+  }
+  return file;
+}
+
 void write_file(String text, String path) { 
-  File file = SPIFFS.open(path, "w+"); 
+  File file = open_file(path, "w+"); 
   if (!file){ return; }
 
   file.println(text);
@@ -20,22 +29,27 @@ int count_lines_char(char *ptr, int num_bytes) {
   return n_lines + 1;
 }
 
-char* read_file(String path, int* num_bytes) {
-  File file = SPIFFS.open(path, "r");
-  char *ptr;
-  if (!file) { return ptr; }
+bool read_file(String path, char **ptr, int* num_bytes) {
+  File file = open_file(path, "r");
+  if (!file) { return 0; }
 
   *num_bytes = file.size();
-  ptr = (char*) calloc((*num_bytes), sizeof(char));
+  Serial.println("Reading file: " + path);
+  
+  *ptr = (char *) malloc((*num_bytes) * sizeof(char));
+  Serial.println("Start pointer -=> " + String(int(ptr)));
+  if (!(*ptr)) { return 0; }
 
+  Serial.println("Succes: " + path);
   for (int i=0; i<(*num_bytes); i++) {
-    *ptr = file.read();
-    ptr++;
+    **ptr = file.read();
+    *ptr++;
   }
-  *ptr = '\0';
+  **ptr = '\0';
+  *ptr -= (*num_bytes);
+  Serial.println("--");
   file.close();
-  ptr -= (*num_bytes);
-  return ptr;
+  return 1;
 }
  
 void openFS(){

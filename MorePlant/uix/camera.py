@@ -35,6 +35,7 @@ Builder.load_string("""
             on_size: root._update_camera_options()
             on_pos: root._update_camera_options()
             on_kv_post: root._update_camera_options()
+            letterbox_color: hex('#96cfea')
         FloatLayout:
             size_hint: [None, None]
             size: [0, 0]
@@ -60,8 +61,8 @@ Builder.load_string("""
                             size_hint_y: None
                             height: '30dp'
                             BoxLayout:
-                                size_hint: None, None
-                                size: '110dp', '30dp'
+                                size_hint: [None, None]
+                                size: ['110dp', '30dp']
                                 AnchorIcon:
                                     radius: [self.width/1.7] * 4
                                     size_hint_y: None
@@ -82,7 +83,7 @@ Builder.load_string("""
                             AnchorIcon:
                                 radius: [self.width/1.7] * 4
                                 size_hint_y: None
-                                size: '80dp', '30dp'
+                                size: ['80dp', '30dp']
                                 ButtonIcon:
                                     size: ['25dp', '25dp']
                                     source: icon('settings')
@@ -92,8 +93,8 @@ Builder.load_string("""
                         anchor_y: 'center'
                         Widget:
                             id: scanner
-                            size_hint: None, None
-                            size: '150dp', '150dp'
+                            size_hint: [None, None]
+                            size: ['150dp', '150dp']
                             on_size: root.sc_prop = [*self.size, *self.pos]
                             on_pos: root.sc_prop = [*self.size, *self.pos]
 
@@ -129,7 +130,7 @@ Builder.load_string("""
                             AnchorIcon:
                                 radius: [self.width/1.7] * 4
                                 size_hint_y: None
-                                size: '80dp', '25dp'
+                                size: ['80dp', '25dp']
                                 ButtonIcon:
                                     size: ['25dp', '25dp']
                                     source: icon('aspect_ratio')
@@ -138,7 +139,7 @@ Builder.load_string("""
                             AnchorIcon:
                                 radius: [self.width/1.7] * 4
                                 size_hint_y: None
-                                size: '80dp', '25dp'
+                                size: ['80dp', '25dp']
                                 ButtonIcon:
                                     size: ['25dp', '25dp']
                                     source: icon('dark_theme')
@@ -160,7 +161,7 @@ Builder.load_string("""
                             AnchorIcon:
                                 radius: [self.width/1.7] * 4
                                 size_hint_y: None
-                                size: '100dp', '70dp'
+                                size: ['100dp', '70dp']
                                 ButtonIcon:
                                     size: ['60dp', '60dp']
                                     source: icon('img')
@@ -168,7 +169,7 @@ Builder.load_string("""
                             AnchorIcon:
                                 radius: [self.width/1.7] * 4
                                 size_hint_y: None
-                                size: '100dp', '70dp'
+                                size: ['100dp', '70dp']
                                 ButtonIcon:
                                     size: ['70dp', '70dp']
                                     source: icon('btn_camera')
@@ -176,7 +177,7 @@ Builder.load_string("""
                             AnchorIcon:
                                 radius: [self.width/1.7] * 4
                                 size_hint_y: None
-                                size: '100dp', '70dp'
+                                size: ['100dp', '70dp']
                                 ButtonIcon:
                                     size: ['60dp', '60dp']
                                     source: icon('btn_photos')
@@ -209,7 +210,7 @@ Builder.load_string("""
                 h_top_scann: ((self.y+self.height)-(root.sc_prop[3]+root.sc_prop[1]))
                 canvas.before:
                     Color:
-                        rgba: [0.1, 0.2, 0.3, 0.4]
+                        rgba:  [0.1, 0.2, 0.3, 0.4]
                     Rectangle:
                         pos: [self.x, self.y]
                         size: [(self.w_scann or 0), self.height]
@@ -253,7 +254,7 @@ Builder.load_string("""
                                     width: dp(3)
 
                             Icon:
-                                pos: self.parent.x+self.parent.width-self.width-dp(7), self.parent.y+dp(7)
+                                pos: [self.parent.x+self.parent.width-self.width-dp(7), self.parent.y+dp(7)]
                                 background_color: [1, 1, 1, 1]
                                 radius: [self.width/2] * 4
                                 size_hint_y: None
@@ -283,7 +284,7 @@ Builder.load_string("""
                             background_color: hex('#333333')
                             radius: [self.width/2] * 4
                             size_hint_y: None
-                            size: '80dp', '80dp'
+                            size: ['80dp', '80dp']
                             ButtonIcon:
                                 size: ['45dp', '45dp']
                                 source: icon('qrcode')

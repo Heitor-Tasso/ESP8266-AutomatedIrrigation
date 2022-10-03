@@ -7,12 +7,14 @@ $(document).ready(function () {
     $('.show-eye-icon').click(function () {
         let input = $('.input-password input')[0];
         $(this).toggleClass("down");
-
+        
         if (input.getAttribute('type') == 'password') {
             input.setAttribute('type', 'text');
+            $(this)[0].setAttribute('src', 'assets/eye-out.png');
         }
         else {
             input.setAttribute('type', 'password');
+            $(this)[0].setAttribute('src', 'assets/eye-off-out.png');
         }
     });
 

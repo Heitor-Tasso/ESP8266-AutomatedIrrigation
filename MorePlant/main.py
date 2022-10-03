@@ -38,12 +38,14 @@ Builder.load_string("""
 
 <GameScreens>:
     UserPlant:
-        name: 'user'    
+        name: 'user'
     Login:
         id: login
         name: 'login'
     PlantCamera:
         name: 'camera'
+    # QRCode:
+    #     name: 'qrcode'
 
 """)
 
