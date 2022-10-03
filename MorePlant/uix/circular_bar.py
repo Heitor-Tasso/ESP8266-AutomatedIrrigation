@@ -12,10 +12,12 @@ from kivy.uix.widget import Widget
 from kivy.app import App
 from kivy.core.text import Label
 from kivy.lang.builder import Builder
-from kivy.graphics import Line, Rectangle, Color
+from kivy.graphics import Line, Rectangle, Color, Ellipse
 from kivy.clock import Clock
 from collections.abc import Iterable
 from math import ceil
+
+from matplotlib.patches import Circle
 
 # This constant enforces the cap argument to be one of the caps accepted by the kivy.graphics.Line class
 _ACCEPTED_BAR_CAPS = {"round", "none", "square"}
@@ -26,6 +28,7 @@ _DEFAULT_CAP_STYLE = 'round'
 _DEFAULT_PRECISION = 10
 _DEFAULT_PROGRESS_COLOUR = (1, 0, 0, 1)
 _DEFAULT_BACKGROUND_COLOUR = (0.26, 0.26, 0.26, 1)
+_DEFAULT_BACKGROUND = (1, 1, 1, 1)
 _DEFAULT_MAX_PROGRESS = 100
 _DEFAULT_MIN_PROGRESS = 0
 _DEFAULT_WIDGET_SIZE = 200
@@ -80,6 +83,7 @@ class CircularProgressBar(Widget):
         self._cap_precision = _DEFAULT_PRECISION
         self._progress_colour = _DEFAULT_PROGRESS_COLOUR
         self._background_colour = _DEFAULT_BACKGROUND_COLOUR
+        self._background = _DEFAULT_BACKGROUND
         self._max_progress = _DEFAULT_MAX_PROGRESS
         self._min_progress = _DEFAULT_MIN_PROGRESS
         self._widget_size = _DEFAULT_WIDGET_SIZE
@@ -157,6 +161,17 @@ class CircularProgressBar(Widget):
             raise TypeError("Bar background colour must be iterable (e.g. list, tuple), not {}!".format(type(value)))
         else:
             self._background_colour = value
+        
+    @property
+    def background(self):
+        return self._background
+
+    @background.setter
+    def background(self, value: Iterable):
+        if not isinstance(value, Iterable):
+            raise TypeError("Bar background colour must be iterable (e.g. list, tuple), not {}!".format(type(value)))
+        else:
+            self._background = value
 
     @property
     def max(self):
@@ -299,6 +314,10 @@ class CircularProgressBar(Widget):
             self.canvas.clear()
             self._refresh_text()
 
+            # Draw the progress line
+            Color(*self.background)
+            Ellipse(pos=self.pos, size=[self._widget_size]*2)
+
             # Draw the background progress line
             Color(*self.background_colour)
             Line(circle=(self.pos[0] + self._widget_size / 2, self.pos[1] + self._widget_size / 2,
@@ -347,6 +366,7 @@ FloatLayout:
         cap_style: "RouND"
         progress_colour: "010"
         background_colour: "001"
+        background: "001"
         cap_precision: 3
         max: 150
         min: 100

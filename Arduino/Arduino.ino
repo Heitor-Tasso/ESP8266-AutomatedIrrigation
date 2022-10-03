@@ -1,83 +1,82 @@
  
-#include <ESP8266WiFi.h>
+#include "FS.h"
 
 #include "debug/toolsprint.h"
-#include "varibles/tooltype.h"
-
-// ------------------- local wifi -------------------
-#define user_wifi "UserWifi"
-#define user_pass "PasswordWifi"
-
-#define HTML_PAGE "\
-\
-<!DOCTYPE HTML>\
-\
-<html>\
-  <h1>\
-    <center>Ola cliente!</center>\
-  </h1>\
-</html>\
-"
-
-WiFiServer server(80);
+#include "server/wifi.h"
 
 unsigned int time_to_update = 0;
 bool need_to_update = false;
 unsigned long int last_time_updated = 0;
 
-void start_local_wifi() {
-  WiFi.begin(user_wifi, user_pass); // WiFi Domestico
-  
-  // Wait for connection
-  while (WiFi.status() != WL_CONNECTED) {
-    delay(500);
-    Serial.print(".");
+void login_form() {
+  if (!server.hasArg("username") || ! server.hasArg("password") \
+        || server.arg("username") == NULL || server.arg("password") == NULL) {
+    // If the POST request doesn't have username and password data
+    handle_page("/html/invalid_request.html");
+    return;
+  }
+
+  if (server.arg("username") == "Heitor" && server.arg("password") == "1234") {
+    // If both the username and the password are correct
+    handle_page("/html/info_page.html");
+  }
+  else { // Username and password don't match
+    handle_page("/index.html?login=invalid");
   }
 }
+
 
 void setup() {
   Serial.begin(9600);
-  pinMode(LED_BUILTIN, OUTPUT);
 
-  IPAddress staticIP(192, 168, 4, 2); // IP Static 192.168.4.2
-  IPAddress gateway(192, 168, 4, 1); // gateway Static 192.168.4.1
-  IPAddress subnet(255, 255, 255, 0); // subnet Static 255.255.255.0
-  WiFi.mode(WIFI_STA); // Mode STATION ACCESS
-  WiFi.config(staticIP, gateway, subnet);
+  WiFi.mode(WIFI_AP_STA);  // Mode ACCESS POINT && STATION ACCESS
+  start_local_wifi();      // Start STATION ACCESS
+  // start_esp8266_wifi();    // Start ACESS POINT
+  openFS();
+
+
+  // FILES
+
+  stream_file("/assets/eye-off-out.png", 0);
+  stream_file("/assets/eye-out.png", 0);
+  stream_file("/assets/site_large.png", 0);
+  stream_file("/assets/light-bulb.png", 0);
   
-  start_local_wifi(); // Start STATION ACCESS
+  stream_file("/css/index.css", 0);
 
-  Serial.println("");
-  Serial.println("¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨");
-  Serial.println("Server started!");
-  print_str(String("http://")+WiFi.softAPIP().toString(), "getway");
-  print_str(WiFi.localIP().toString(), "ip");
-  Serial.println("------------------------------------");
+  stream_file("/index.html", 0);
+  stream_file("/html/info_page.html", 0);
+  stream_file("/html/not_found.html", 1);
+  stream_file("/html/invalid_request.html", 2);
+
+  stream_file("/js/index.js", 0);
+  stream_file("/js/jquery-3.6.0.js", 0);
+
+  stream_file("/uix/circular_progress_bar.html", 0);
+  
+  server.on("/server/login", login_form);
+
+  server.begin();
 }
 
 void loop() {
-
-  digitalWrite(LED_BUILTIN, HIGH);
-  delay(1000);
+  server.handleClient();
   
-  WiFiClient client = server.available();
-  if (client) {
-    Serial.println("Novo cliente se conectou!");
-    while (!client.available()){ delay(5); }
+  // WiFiClient client = server.available();
+  // if (client) {
+  //   Serial.println("Novo cliente se conectou!");
+  //   while (!client.available()){ delay(5); }
 
-    String request = client.readStringUntil('\r');
-    Serial.println(request);
-    client.flush();
+  //   String request = client.readStringUntil('\r');
+  //   Serial.println(request);
+  //   client.flush();
 
-    client.println("HTTP/1.1 200 OK"); // VERSÃO DO HTTP
-    client.println("Content-Type: text/html"); // TIPO DE CONTEÚDO
+  //   client.println("HTTP/1.1 200 OK"); // VERSÃO DO HTTP
+  //   client.println("Content-Type: text/html"); // TIPO DE CONTEÚDO
   
-    client.println(HTML_PAGE);
-    Serial.println("Cliente desconectado.");
-  }
-
-  digitalWrite(LED_BUILTIN, LOW);
-  delay(1000);;
+  //   client.println(HTML_PAGE);
+  //   Serial.println("Cliente desconectado.");
+  // }
 
   if (millis()-last_time_updated >= time_to_update && need_to_update) {
     last_time_updated = millis();
