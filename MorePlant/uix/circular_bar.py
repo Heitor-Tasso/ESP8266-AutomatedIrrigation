@@ -17,8 +17,6 @@ from kivy.clock import Clock
 from collections.abc import Iterable
 from math import ceil
 
-from matplotlib.patches import Circle
-
 # This constant enforces the cap argument to be one of the caps accepted by the kivy.graphics.Line class
 _ACCEPTED_BAR_CAPS = {"round", "none", "square"}
 

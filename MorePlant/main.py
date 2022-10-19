@@ -1,9 +1,6 @@
 
 from kivy.app import App
 from kivy.lang import Builder
-from kivy.clock import Clock
-from kivy.core.window import Window
-from uix.triggers import BTrigger
 from kivy.uix.screenmanager import ScreenManager
 
 from login import Login
@@ -44,8 +41,8 @@ Builder.load_string("""
         name: 'login'
     PlantCamera:
         name: 'camera'
-    # QRCode:
-    #     name: 'qrcode'
+    QRCode:
+        name: 'qrcode'
 
 """)
 

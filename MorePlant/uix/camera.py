@@ -20,6 +20,10 @@ Builder.load_string("""
 #:import ButtonIcon uix.icons.ButtonIcon
 #:import AnchorIcon uix.icons.AnchorIcon
 
+<PreviewVCamera>:
+    v_size: [0, 0]
+    v_pos: [0, 0]
+
 <PlantCamera>:
     on_enter: camera.connect_camera()
     on_leave: camera.disconnect_camera()
@@ -27,11 +31,9 @@ Builder.load_string("""
     sc_prop: [0, 0, 0, 0] # w, h, x, y of scanner
     BoxLayout:
         orientation: 'vertical'
-        Preview:
+        PreviewVCamera:
             id: camera
             aspect_ratio: '9:16'
-            v_size: [0, 0]
-            v_pos: [0, 0]
             on_size: root._update_camera_options()
             on_pos: root._update_camera_options()
             on_kv_post: root._update_camera_options()
@@ -191,11 +193,9 @@ Builder.load_string("""
     sc_prop: [0, 0, 0, 0] # w, h, x, y of scanner
     BoxLayout:
         orientation: 'vertical'
-        Preview:
+        PreviewVCamera:
             id: camera
             aspect_ratio: '9:16'
-            v_size: [0, 0]
-            v_pos: [0, 0]
             on_size: root._update_camera_options()
             on_pos: root._update_camera_options()
             on_kv_post: root._update_camera_options()
@@ -301,6 +301,10 @@ Builder.load_string("""
 
                     
 """)
+
+class PreviewVCamera(Preview):
+    v_size = ListProperty([0, 0])
+    v_pos = ListProperty([0, 0])
 
 class PlantCamera(Screen):
 

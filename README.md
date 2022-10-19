@@ -8,7 +8,7 @@
 ![Bitbucket open issues](https://img.shields.io/bitbucket/issues/Heitor-Tasso/ESP8266-AutomatedIrrigation?style=for-the-badge)
 ![Bitbucket open pull requests](https://img.shields.io/bitbucket/pr-raw/Heitor-Tasso/ESP8266-AutomatedIrrigation?style=for-the-badge)
 
-<img src="exemplo-image.png" alt="exemplo imagem">
+<img src="exemplo-image.png" alt="Imagem de Exemplo">
 
 > Utilizamos o ESP8266 para automatizar os cuidados de uma planta, sendo possível visualizar a saúde. Assim, facilitando os cuidados e consequêntemente aumentando a venda de plantas domésticas. 
 
@@ -34,12 +34,13 @@ Para instalar o ESP8266-AutomatedIrrigation, siga estas etapas:
 
 Instruções:
 
- - Abrir o aquivo Arduino/Arduino.ino na IDE Arduino.
+ - Abrir o aquivo Arduino/Arduino.ino na IDE do Arduino.
  - Configurar para poder utlizar o ESP8266 [esp8266 no arduino ide](https://www.robocore.net/tutoriais/programando-o-esp8266-pela-arduino-ide).
  - Instalar o driver do ESP8266 [como instalar o driver](https://www.blogdarobotica.com/2020/05/26/instalando-driver-serial-para-nodemcu-com-chip-ch340/#:~:text=Caso%20a%20placa%20NODEMCU%20ESP8266,NODEMCU%20ESP8266%20n%C3%A3o%20foi%20reconhecida.&text=Ap%C3%B3s%20a%20conclus%C3%A3o%20do%20download,instala%C3%A7%C3%A3o%2C%20conforme%20a%20Figura%205.).
+  - Carregar site no ESP8266 [como carregar arquivos no esp8266](https://randomnerdtutorials.com/install-esp8266-filesystem-uploader-arduino-ide/).
   - Carregar o programa no ESP8266 [como colocar o programa no esp8266](https://seurobo.com.br/como-enviar-o-programa-para-o-arduino-uno-mega-ou-outros/).
   - Compilar o App MorePlant para a sua máquina [compilar apps com Kivy](https://kivy.org/doc/stable/guide/packaging.html) ou instalar utilizando os links mais abaixo.
-  - Agora é só ligar o ESP9266 e entrar no App para se conectar.
+  - Agora é só ligar o ESP8266 e entrar no App para se conectar.
 
 Downloads MorePlant:
  - `Windows` -> [Download MorePlant]()

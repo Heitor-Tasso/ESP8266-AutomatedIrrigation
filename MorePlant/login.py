@@ -1,11 +1,7 @@
 
 from kivy.metrics import dp
 from kivy.lang import Builder
-from kivy.properties import ObjectProperty
 from kivy.uix.screenmanager import Screen
-from kivy.clock import Clock
-
-import socket
 from threading import Thread
 
 Builder.load_string("""
