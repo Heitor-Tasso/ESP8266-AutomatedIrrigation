@@ -5,8 +5,28 @@ from kivy.core.window import Window
 from uix.triggers import BTrigger
 from kivy.uix.screenmanager import Screen
 from kivy.animation import Animation
-
+import time, random, os
 from camera4kivy import Preview
+
+from pyzbar import pyzbar
+from PIL import Image as PILImage
+
+def get_qrcode(path_img, index=0):
+    founded = []
+    img = PILImage.open(path_img)
+    print('img size -=> ', img.size)
+
+    for barcode in pyzbar.decode(img):
+        data = barcode.data.decode("utf-8")
+        if data not in founded:
+            founded.append(data)
+    
+    if not founded:
+        return None
+    if index is None:
+        return founded
+    return founded[index]
+
 
 Builder.load_string("""
 
@@ -371,6 +391,13 @@ class QRCode(Screen):
         self.camera.v_size = self.camera.preview.view_size
         self.camera.v_pos = self.camera.preview.view_pos
     
+    def read_qrcode(self, *args):
+        path = f'_{int(time.time())}_{random.randint(0, int(time.time()))}.png'
+        self.camera.export_to_png(path)
+        url = get_qrcode(path)
+        os.remove(path)
+        return url
+
     def start_scann(self, *args):
         if self.started_scan: return None
 
@@ -391,6 +418,7 @@ class QRCode(Screen):
 
     def end_scann(self, *args):
         self.started_scan = False
+        print("read_qrcode -=> ", self.read_qrcode())
         Clock.schedule_once(self.next_screen, 1)
     
     def next_screen(self, *args):

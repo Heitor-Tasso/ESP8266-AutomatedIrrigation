@@ -2,9 +2,11 @@
 from kivy.lang import Builder
 from kivy.uix.screenmanager import Screen
 from kivy.uix.anchorlayout import AnchorLayout
+from kivy.animation import Animation
 from kivy.clock import Clock
 from kivy.properties import NumericProperty
 from uix.triggers import BTrigger
+from random import randint
 
 Builder.load_string("""
 
@@ -34,7 +36,9 @@ Builder.load_string("""
     anchor_x: 'center'
     anchor_y: 'center'
     name: ''
-    percent: 0
+    text: "{}%"
+    value: 0
+    max: 100
     on_size: circular_bar._draw()
     on_pos: circular_bar._draw()
     on_kv_post: Window.bind(on_flip=lambda *a: circular_bar._draw())
@@ -45,25 +49,28 @@ Builder.load_string("""
         size: max(label.width, flt_bar.width), self.minimum_height
         AnchorLayout:
             anchor_x: 'center'
+            anchor_y: 'center'
             size_hint_y: None
-            height: '80dp'
+            height: '110dp'
             FloatLayout:
                 id: flt_bar
                 size_hint_x: None
-                width: '90dp'
+                width: '120dp'
                 CircularProgressBar:
                     id: circular_bar
                     cap_style: "SqUArE"
                     thickness: 5
                     progress_colour: hex('#ffffff')
-                    background_colour: hex('#fec560')
-                    background: hex('#383637')
+                    background_colour: hex('#702963')
+                    background: 
+                        hex('#C41E3A') if root.value < root.max/3 else (\
+                        hex('#FFC300') if root.value < root.max/1.5 else hex('#1DB954'))
                     cap_precision: 100
-                    max: 10
-                    value: root.percent
+                    max: root.max
+                    value: root.value
                     widget_size: round(self.parent.width)
                     pos: self.parent.pos
-                    label: Label(text="{}%", font_size=sp(20))
+                    label: Label(text=root.text, font_size=sp(20))
         OptionLabel:
             id: label
             text: root.name
@@ -196,7 +203,7 @@ Builder.load_string("""
                 height: '15dp'
             BoxLayout:
                 size_hint_y: None
-                height: '30dp'
+                height: '20dp'
                 canvas.before:
                     Color:
                         rgba: hex('#c1d6fa')
@@ -205,30 +212,39 @@ Builder.load_string("""
                         size: self.size
                 AnchorLayout:
                     anchor_y: 'center'
+                    padding_x: '30dp'
                     OptionLabel:
                         text: 'IP:'
                         color: [0, 0, 0, 1]
             BoxLayout:
                 size_hint_y: None
-                height: '150dp'
+                height: '180dp'
                 canvas.before:
                     Color:
                         rgba: hex('#4b548a')
                     Rectangle:
                         pos: self.pos
                         size: self.size
-
                 GraphicCircular:
-                    name: 'Luminosidade'
+                    name: "Luminosidade"
+                    text: "{} Lux"
+                    id: lux_graph
+                    max: 800
                 GraphicCircular:
-                    name: 'Temperatura'
+                    name: "Temperatura"
+                    text: "{} °C"
+                    id: celsius_graph
+                    max: 60
                 GraphicCircular:
-                    name: 'Umidade'
+                    name: "Umidade"
+                    text: "{} g/m³"
+                    id: humidity_graph
+                    max: 100
 """)
 
 class GraphicCircular(AnchorLayout):
     
-    percent = NumericProperty(0)
+    value = NumericProperty(0)
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -240,6 +256,22 @@ class GraphicCircular(AnchorLayout):
 
 
 class UserPlant(Screen):
-    pass
+    def __init__(self, **kw):
+        super().__init__(**kw)
+        Clock.schedule_once(self.start)
 
+    def start(self, *args):
+        self.change_graph()
+        Clock.schedule_interval(self.change_graph, 3)
+        
+    
+    def change_graph(self, *args):
+        anim1 = Animation(value=randint(0, self.ids.lux_graph.max), d=1)
+        anim1.start(self.ids.lux_graph)
+        
+        anim2 = Animation(value=randint(0, self.ids.celsius_graph.max), d=1)
+        anim2.start(self.ids.celsius_graph)
+        
+        anim2 = Animation(value=randint(0, self.ids.humidity_graph.max), d=1)
+        anim2.start(self.ids.humidity_graph)
 
