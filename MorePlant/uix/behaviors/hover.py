@@ -24,7 +24,6 @@ __all__ = ("HoverBehavior",)
 
 from kivy.core.window import Window
 from kivy.properties import BooleanProperty, ObjectProperty, ListProperty
-from kivy.uix.widget import Widget
 
 
 class HoverBehavior(object):

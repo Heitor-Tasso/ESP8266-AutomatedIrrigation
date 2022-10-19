@@ -1,3 +1,4 @@
 kivy
 opencv-python
 camera4kivy
+matplotlib

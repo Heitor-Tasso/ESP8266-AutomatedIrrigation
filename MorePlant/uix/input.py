@@ -8,8 +8,8 @@ from kivy.core.window import Window
 from kivy.metrics import dp, sp
 from kivy.properties import (
     ListProperty, NumericProperty,
-    ObjectProperty, StringProperty,
-    OptionProperty)
+    ObjectProperty, OptionProperty,
+)
 from kivy.uix.anchorlayout import AnchorLayout
 from kivy.uix.textinput import TextInput
 

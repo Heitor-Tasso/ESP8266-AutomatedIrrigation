@@ -9,7 +9,7 @@ from kivy.properties import (
     ObjectProperty, StringProperty)
 from kivy.uix.anchorlayout import AnchorLayout
 from kivy.uix.textinput import TextInput
-from .icons import ButtonIcon, ToggleButtonIcon
+from .icons import ToggleButtonIcon
 
 
 Builder.load_string("""
