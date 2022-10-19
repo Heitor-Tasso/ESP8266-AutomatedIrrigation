@@ -8,6 +8,11 @@ unsigned int time_to_update = 0;
 bool need_to_update = false;
 unsigned long int last_time_updated = 0;
 
+int lux_value;
+int celsius_value;
+int humidity_value;
+
+
 void login_form() {
   if (!server.hasArg("username") || ! server.hasArg("password") \
         || server.arg("username") == NULL || server.arg("password") == NULL) {
@@ -23,6 +28,14 @@ void login_form() {
   else { // Username and password don't match
     handle_page("/index.html?login=invalid");
   }
+}
+
+void get_values() {
+  String values = "{";
+  values += "\"lux_value=" + String(lux_value) + "\",";
+  values += "\"celsius_value=" + String(celsius_value) + "\",";
+  values += "\"humidity_value=" + String(humidity_value) + "\"";
+  return values + "}";
 }
 
 
@@ -55,28 +68,13 @@ void setup() {
   stream_file("/uix/circular_progress_bar.html", 0);
   
   server.on("/server/login", login_form);
+  server.on("/server/values", get_values);
 
   server.begin();
 }
 
 void loop() {
   server.handleClient();
-  
-  // WiFiClient client = server.available();
-  // if (client) {
-  //   Serial.println("Novo cliente se conectou!");
-  //   while (!client.available()){ delay(5); }
-
-  //   String request = client.readStringUntil('\r');
-  //   Serial.println(request);
-  //   client.flush();
-
-  //   client.println("HTTP/1.1 200 OK"); // VERSÃO DO HTTP
-  //   client.println("Content-Type: text/html"); // TIPO DE CONTEÚDO
-  
-  //   client.println(HTML_PAGE);
-  //   Serial.println("Cliente desconectado.");
-  // }
 
   if (millis()-last_time_updated >= time_to_update && need_to_update) {
     last_time_updated = millis();

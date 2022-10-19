@@ -1,6 +1,5 @@
 __all__ = ['InputIcon', 'BaseInput']
 
-from kivy.app import App
 from kivy.animation import Animation
 from kivy.clock import Clock
 from kivy.lang import Builder
@@ -374,34 +373,4 @@ class InputIcon(AnchorLayout):
         pass
     def on_focus(self, *args):
         pass
-        
-
-if __name__ == '__main__':
-    KV = """
-    BoxLayout:
-        orientation:'vertical'
-        InputIcon:
-        InputIcon:
-            label_text: 'Fixed Text'
-            radius: [0]
-        InputIcon:
-            label_text: 'Fixed Text'
-        InputIcon:
-            background_color: [0.1, 0, 0.3, 1]
-            line_color: [[0, 0.4, 0, 1], [1, 1, 1, 1]]
-            label_text: 'Some Text'
-            
-            icon_left_source: ['assets/icons/kivy_logo.png', 'assets/icons/close.png']
-            icon_left_color: [[0, 1, 0, 1], [1, 0, 0, 1]]
-            icon_left_type: 'button'
-
-            icon_right_state_source: ['assets/icons/close.png', 'assets/icons/kivy_logo.png']
-            icon_right_color: [[0, 1, 0, 1], [1, 0, 0, 1]]
-            icon_right_size: [dp(30), dp(30)]
-            icon_right_state: 'button'
-    """
-    class Example(App):
-        def build(self):
-            return Builder.load_string(KV)
-    Example().run()
 

@@ -9,10 +9,10 @@ from kivy.properties import (
     ObjectProperty, StringProperty)
 from kivy.uix.anchorlayout import AnchorLayout
 from kivy.uix.textinput import TextInput
-from .icons import ToggleButtonIcon
-
 
 Builder.load_string("""
+
+#:import ToggleButtonIcon uix.icons.ToggleButtonIcon
 
 <IconInput>:
     hide: False
