@@ -20,13 +20,13 @@ Builder.load_string("""
         RoundedRectangle:
             size: [(self.bar_width*2), self.height]
             pos: [(self.x+(self.width/2)-(self.bar_width*2/2)), self.y]
-            radius: [self.bar_width]
+            radius: self.radius
         Color:
             rgba: self._bar_color
         RoundedRectangle:
             size: [self.bar_width, self.bar_height]
             pos: [(self.x+(self.width/2)-(self.bar_width/2)), self.bar_y]
-            radius: [self.bar_width/2]
+            radius: self.bar_radius
 
 <ScrollViewBar>:
     bar_color: [0, 0, 0, 0]
@@ -46,6 +46,8 @@ class BarScroll(Widget):
     bar_y = NumericProperty(0)
     bar_color = ListProperty(get_color_from_hex('#737373'))
     _bar_color = ListProperty([0, 0, 0, 0])
+    radius = ListProperty([0, 0, 0, 0])
+    bar_radius = ListProperty([0, 0, 0, 0])
     can_scroll = False
 
     def __init__(self, **kwargs):

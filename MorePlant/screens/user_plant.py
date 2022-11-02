@@ -118,6 +118,7 @@ Builder.load_string("""
                 ButtonIcon:
                     size: ['25dp', '25dp']
                     source: icon('help')
+                    on_release: root.manager.current = "help"
             Widget:
             AnchorIcon:
                 size_hint_y: None

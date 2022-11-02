@@ -1,9 +1,10 @@
 
-from uix.behaviors.button import ToggleButtonBehavior
+from uix.behaviors.button import ToggleButtonBehavior, ButtonBehavior
 from kivy.uix.label import Label
 from kivy.lang.builder import Builder
 from kivy.utils import get_color_from_hex
 from kivy.properties import ListProperty
+
 
 Builder.load_string("""
 
@@ -22,6 +23,9 @@ Builder.load_string("""
                 (0 if self.parent is None else self.parent.y+dp(3))\
                 ]
 
+<LabelButton>:
+    color: [1, 1, 1, 1]
+
 """)
 
 class LabelBottomStroke(ToggleButtonBehavior, Label):
@@ -32,3 +36,6 @@ class LabelBottomStroke(ToggleButtonBehavior, Label):
             self.color_back_line = get_color_from_hex('#34FF00')
         else:
             self.color_back_line = [0, 0, 0, 0]
+    
+class LabelButton(ButtonBehavior, Label):
+    pass

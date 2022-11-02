@@ -3,8 +3,10 @@ from kivy.app import App
 from kivy.lang import Builder
 from kivy.uix.screenmanager import ScreenManager
 
-from login import Login
-from user_plant import UserPlant
+from screens.help import Help
+from screens.login import Login
+from screens.user_plant import UserPlant
+
 from uix.camera import PlantCamera, QRCode
 
 Builder.load_string("""
@@ -34,11 +36,13 @@ Builder.load_string("""
 #:set blue hex('#0064CE')
 
 <GameScreens>:
-    UserPlant:
-        name: 'user'
     Login:
         id: login
         name: 'login'
+    UserPlant:
+        name: 'user'
+    Help:
+        name: 'help'
     PlantCamera:
         name: 'camera'
     QRCode:
