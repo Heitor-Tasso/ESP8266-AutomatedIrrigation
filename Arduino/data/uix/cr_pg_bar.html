@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="icon" sizes="192x192" href="../assets/site_large.png">
+  <link rel="stylesheet" href="./cr_pg_bar.css">
+
+</head>
+
+<style>
+  body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+</style>
+
+<body>
+  <div class="containerCircle">
+    <div class="containerInnerCircle">
+      <div id="middle-circle"></div>
+      <div id="progress-spinner"></div>
+    </div>
+  </div>
+
+  <script>
+
+    function setProgress(progress, progressColor, defaultColor) {
+      document.getElementById("progress-spinner").style.background =
+                                    "conic-gradient(" + progressColor + progress +
+                                    "%," + defaultColor + progress + "%)";
+
+      document.getElementById("middle-circle").innerHTML =
+                                    progress.toString() + "%";
+    }
+
+    window.onload = function () {
+      setProgress(65, "rgb(3, 133, 255)", "rgb(242, 242, 242)");
+    };
+  </script>
+</body>
+</html>

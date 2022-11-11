@@ -8,9 +8,16 @@ unsigned int time_to_update = 0;
 bool need_to_update = false;
 unsigned long int last_time_updated = 0;
 
-int lux_value;
-int celsius_value;
-int humidity_value;
+#define PIN_LDR 0
+#define PIN_TMP 1
+#define PIN_HUM 2
+
+#define MUX_0 10
+#define MUX_1 5
+#define MUX_2 6
+#define MUX_3 7
+
+#define ANALOGIC_MUX A0
 
 
 void login_form() {
@@ -30,32 +37,68 @@ void login_form() {
   }
 }
 
+int read_luminosity() {
+  int value = 100 - ((analogRead(PIN_LDR) - 189)*100/271);
+  if (value > 100) { value = 100; }
+  else if (value < 0) { value = 0; }
+
+  Serial.println("Luminosity = " + String(value) + "%");
+  return value;
+}
+
+int read_temperature() {
+  int value = 100 - ((analogRead(PIN_TMP) - 189)*100/271);
+  if (value > 100) { value = 100; }
+  else if (value < 0) { value = 0; }
+
+  Serial.println("Temperature = " + String(value) + "%");
+  return value;
+}
+
+int read_humidity() {
+  int value = 100 - ((analogRead(PIN_HUM) - 189)*100/271);
+  if (value > 100) { value = 100; }
+  else if (value < 0) { value = 0; }
+
+  Serial.println("Humidity = " + String(value) + "%");
+  return value;
+}
+
 void get_values() {
   String values = "{";
-  values += "\"lux_value=" + String(lux_value) + "\",";
-  values += "\"celsius_value=" + String(celsius_value) + "\",";
-  values += "\"humidity_value=" + String(humidity_value) + "\"";
-  return values + "}";
+  values += "\"lux_value=" + String(read_luminosity()) + "\",";
+  values += "\"celsius_value=" + String(read_temperature()) + "\",";
+  values += "\"humidity_value=" + String(read_humidity()) + "\"";
+  values += "}";
+  server.send(200, "text/plain", values);
 }
 
 
 void setup() {
+  openFS(); // Start system of files
+
   Serial.begin(9600);
+  
+  // pinMode(MUX_0, OUTPUT);
+  // pinMode(MUX_1, OUTPUT);
+  // pinMode(MUX_2, OUTPUT);
+  // pinMode(MUX_3, OUTPUT);
+
+  // pinMode(ANALOGIC_MUX, INPUT);
 
   WiFi.mode(WIFI_AP_STA);  // Mode ACCESS POINT && STATION ACCESS
   start_local_wifi();      // Start STATION ACCESS
   // start_esp8266_wifi();    // Start ACESS POINT
-  openFS();
-
 
   // FILES
 
   stream_file("/assets/eye-off-out.png", 0);
   stream_file("/assets/eye-out.png", 0);
   stream_file("/assets/site_large.png", 0);
-  stream_file("/assets/light-bulb.png", 0);
+  stream_file("/assets/l-bulb-400.png", 0);
   
   stream_file("/css/index.css", 0);
+  stream_file("/uix/cr_pg_bar.css", 0);
 
   stream_file("/index.html", 0);
   stream_file("/html/info_page.html", 0);
@@ -63,9 +106,6 @@ void setup() {
   stream_file("/html/invalid_request.html", 2);
 
   stream_file("/js/index.js", 0);
-  stream_file("/js/jquery-3.6.0.js", 0);
-
-  stream_file("/uix/circular_progress_bar.html", 0);
   
   server.on("/server/login", login_form);
   server.on("/server/values", get_values);

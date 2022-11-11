@@ -4,7 +4,7 @@ from kivy.uix.screenmanager import Screen
 from kivy.uix.anchorlayout import AnchorLayout
 from kivy.animation import Animation
 from kivy.clock import Clock
-from kivy.properties import NumericProperty
+from kivy.properties import NumericProperty, ListProperty
 from uix.triggers import BTrigger
 from random import randint
 
@@ -78,25 +78,24 @@ Builder.load_string("""
             color: [1, 1, 1, 1]
 
 <UserPlant>:
+    box_widths: [dp(50), 0]
     BoxLayout:
         BoxLayout:
             orientation: 'vertical'
             size_hint_x: None
-            width: '50dp'
+            width: root.box_widths[0]
+            id: box_icons
             canvas.before:
                 Color:
                     rgba: hex('#1e1c2a')
                 Rectangle:
                     pos: self.pos
                     size: self.size
-
-            AnchorIcon:
+        
+            Widget:
                 size_hint_y: None
                 height: '70dp'
-                width: self.parent.width
-                ButtonIcon:
-                    size: ['25dp', '25dp']
-                    source: icon('box-options')
+            
             AnchorIcon:
                 size_hint_y: None
                 height: '70dp'
@@ -104,6 +103,7 @@ Builder.load_string("""
                 ButtonIcon:
                     size: ['25dp', '25dp']
                     source: icon('home-boll')
+                    on_release: root.manager.current = "login"
             AnchorIcon:
                 size_hint_y: None
                 height: '70dp'
@@ -111,6 +111,7 @@ Builder.load_string("""
                 ButtonIcon:
                     size: ['25dp', '25dp']
                     source: icon('search')
+                    on_release: root.manager.current = "pesquisa"
             AnchorIcon:
                 size_hint_y: None
                 height: '70dp'
@@ -120,14 +121,6 @@ Builder.load_string("""
                     source: icon('help')
                     on_release: root.manager.current = "help"
             Widget:
-            AnchorIcon:
-                size_hint_y: None
-                height: '70dp'
-                width: self.parent.width
-                ButtonIcon:
-                    size: ['25dp', '25dp']
-                    source: icon('return')
-                    on_release: root.manager.current = "login"
 
         BoxLayout:
             orientation: 'vertical'
@@ -141,9 +134,10 @@ Builder.load_string("""
                 padding: ('30dp', '0dp', '0dp', '0dp')
                 size_hint_y: None
                 height: '60dp'
+                id: top_box
                 BoxLayout:
                     size_hint: [None, None]
-                    size: self.minimum_width, '40dp'
+                    size: [self.minimum_width, '40dp']
                     canvas.before:
                         Color:
                             rgba: [1, 1, 1, 1]
@@ -186,7 +180,7 @@ Builder.load_string("""
                 spacing: '20dp'
                 padding: ['20dp', '0dp', '0dp', '0dp']
                 Image:
-                    source: image('PlantVase-1', 'png')
+                    source: image('plant-2', 'png')
                 BoxLayout:
                     orientation: 'vertical'
                     size_hint_x: 0.5
@@ -226,21 +220,36 @@ Builder.load_string("""
                     Rectangle:
                         pos: self.pos
                         size: self.size
-                GraphicCircular:
-                    name: "Luminosidade"
-                    text: "{} Lux"
-                    id: lux_graph
-                    max: 800
+                
                 GraphicCircular:
                     name: "Temperatura"
                     text: "{} °C"
                     id: celsius_graph
                     max: 60
+
                 GraphicCircular:
                     name: "Umidade"
                     text: "{} g/m³"
                     id: humidity_graph
                     max: 100
+
+                GraphicCircular:
+                    name: "Luminosidade"
+                    text: "{} Lux"
+                    id: lux_graph
+                    max: 800
+        FloatLayout:
+            size_hint: None, None
+            size: 0, 0
+            AnchorIcon:
+                size_hint_y: None
+                size: root.box_widths[0], '70dp'
+                pos: root.x, box_icons.y+box_icons.height-self.height
+                ToggleButtonIcon:
+                    size: ['25dp', '25dp']
+                    source: icon('box-options')
+                    on_state: root.change_bar(self)
+
 """)
 
 class GraphicCircular(AnchorLayout):
@@ -257,6 +266,9 @@ class GraphicCircular(AnchorLayout):
 
 
 class UserPlant(Screen):
+
+    box_widths = ListProperty([0, 0])
+
     def __init__(self, **kw):
         super().__init__(**kw)
         Clock.schedule_once(self.start)
@@ -270,9 +282,18 @@ class UserPlant(Screen):
         anim1 = Animation(value=randint(0, self.ids.lux_graph.max), d=1)
         anim1.start(self.ids.lux_graph)
         
-        anim2 = Animation(value=randint(0, self.ids.celsius_graph.max), d=1)
+        anim2 = Animation(value=randint(0, self.ids.celsius_graph.max), d=1.5)
         anim2.start(self.ids.celsius_graph)
         
-        anim2 = Animation(value=randint(0, self.ids.humidity_graph.max), d=1)
+        anim2 = Animation(value=randint(0, self.ids.humidity_graph.max), d=2)
         anim2.start(self.ids.humidity_graph)
 
+    def change_bar(self, toggle_icon):
+        if toggle_icon.state == 'down':
+            self.ids.box_icons.width = self.box_widths[1]
+            self.ids.top_box.padding[0] += self.box_widths[0]
+            return None
+        
+        self.ids.box_icons.width = self.box_widths[0]
+        self.ids.top_box.padding[0] -= self.box_widths[0]
+        

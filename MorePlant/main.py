@@ -6,6 +6,7 @@ from kivy.uix.screenmanager import ScreenManager
 from screens.help import Help
 from screens.login import Login
 from screens.user_plant import UserPlant
+from screens.pesquisa import Pesquisa
 
 from uix.camera import PlantCamera, QRCode
 
@@ -43,6 +44,8 @@ Builder.load_string("""
         name: 'user'
     Help:
         name: 'help'
+    Pesquisa:
+        name: 'pesquisa'
     PlantCamera:
         name: 'camera'
     QRCode:
