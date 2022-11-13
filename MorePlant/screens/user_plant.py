@@ -13,12 +13,18 @@ Builder.load_string("""
 #:import IconInput uix.inputs.IconInput
 #:import ButtonEffect uix.buttons.ButtonEffect
 #:import ButtonIcon uix.icons.ButtonIcon
+#:import ColoredBoxLayout uix.boxlayout.ColoredBoxLayout
 
 #:import icon utils.icon
 #:import image utils.image
 
 #:import CircularProgressBar uix.circular_bar.CircularProgressBar
+#:import Pesquisa screens.pesquisa.Pesquisa
+#:import Help screens.help.Help
+#:import QRCode uix.camera.QRCode
+#:import PlantCamera uix.camera.PlantCamera
 #:import Label kivy.core.text.Label
+#:import LabelToScroll uix.label.LabelToScroll
 
 #:import Clock kivy.clock.Clock
 #:import Window kivy.core.window.Window
@@ -80,18 +86,12 @@ Builder.load_string("""
 <UserPlant>:
     box_widths: [dp(50), 0]
     BoxLayout:
-        BoxLayout:
+        ColoredBoxLayout:
             orientation: 'vertical'
             size_hint_x: None
             width: root.box_widths[0]
             id: box_icons
-            canvas.before:
-                Color:
-                    rgba: hex('#1e1c2a')
-                Rectangle:
-                    pos: self.pos
-                    size: self.size
-        
+            background_color: hex('#1e1c2a')
             Widget:
                 size_hint_y: None
                 height: '70dp'
@@ -111,7 +111,7 @@ Builder.load_string("""
                 ButtonIcon:
                     size: ['25dp', '25dp']
                     source: icon('search')
-                    on_release: root.manager.current = "pesquisa"
+                    on_release: Pesquisa().open()
             AnchorIcon:
                 size_hint_y: None
                 height: '70dp'
@@ -119,108 +119,116 @@ Builder.load_string("""
                 ButtonIcon:
                     size: ['25dp', '25dp']
                     source: icon('help')
-                    on_release: root.manager.current = "help"
+                    on_release: Help().open()
             Widget:
 
-        BoxLayout:
+        ColoredBoxLayout:
             orientation: 'vertical'
-            canvas.before:
-                Color:
-                    rgba: hex('#002428')
-                Rectangle:
-                    pos: self.pos
-                    size: self.size
-            BoxLayout:
-                padding: ('30dp', '0dp', '0dp', '0dp')
-                size_hint_y: None
-                height: '60dp'
-                id: top_box
-                BoxLayout:
-                    size_hint: [None, None]
-                    size: [self.minimum_width, '40dp']
-                    canvas.before:
-                        Color:
-                            rgba: [1, 1, 1, 1]
-                        RoundedRectangle:
-                            pos: self.pos
-                            size: self.size
-                            radius: [dp(15), dp(15), dp(15), dp(15)]
-                    AnchorIcon:
-                        ButtonIcon:
-                            size: ['35dp', '35dp']
-                            source: icon('camera')
-                            on_release: root.manager.current = "camera"
-                    AnchorIcon:
-                        ButtonIcon:
-                            size: ['35dp', '35dp']
-                            source: icon('qrcode')
-                            on_release: root.manager.current = "qrcode"
+            background_color: hex('#038c73')
 
-                Widget:
+            BoxLayout:
+                id: box_mid
                 BoxLayout:
                     orientation: 'vertical'
-                    size_hint_x: None
-                    width: 0 if not self.children else max(self.children[0].width, self.children[1].width)
-                    OptionLabel:
-                        text: 'ECO'
-                        halign: 'center'
-                    OptionLabel:
-                        text: 'Plantae'
-                        halign: 'center'
-            BoxLayout:
-                orientation: 'vertical'
-                padding: ('40dp', '15dp', '0dp', '15dp')
-                size_hint_y: None
-                height: self.minimum_height
-                OptionLabel:
-                    text:'Dados da Planta:'
-                OptionLabel:
-                    text: '     Lorem Ipsum'
-            BoxLayout:
-                spacing: '20dp'
-                padding: ['20dp', '0dp', '0dp', '0dp']
-                Image:
-                    source: image('plant-2', 'png')
-                BoxLayout:
-                    orientation: 'vertical'
-                    size_hint_x: 0.5
-                    OptionLabel:
-                        text: 'Nome:'
-                    OptionLabel:
-                        text: 'Idade:'
-                    OptionLabel:
-                        text: 'Família:'
-                    OptionLabel:
-                        text: 'Gênero:'
-                    Widget:
-            Widget:
-                size_hint_y: None
-                height: '15dp'
-            BoxLayout:
-                size_hint_y: None
-                height: '20dp'
-                canvas.before:
-                    Color:
-                        rgba: hex('#c1d6fa')
-                    Rectangle:
-                        pos: self.pos
-                        size: self.size
+                    spacing: '15dp'
+                    size_hint_x: 0.7
+                    BoxLayout:
+                        size_hint_y: None
+                        height: self.minimum_height
+                        padding: [0, dp(20), dp(10), 0]
+                        BoxLayout:
+                            orientation:'vertical'
+                            size_hint_y: None
+                            height: self.minimum_height
+                            LabelToScroll:
+                                text: 'ECO'
+                                halign: 'center'
+                                bold: True
+                                font_size: '22sp'
+                            LabelToScroll:
+                                text: 'Plantae'
+                                halign: 'center'
+                                bold: True
+                                font_size: '17sp'
+
+                        ColoredBoxLayout:
+                            size_hint: [None, None]
+                            size: [self.minimum_width, '40dp']
+                            background_color: hex('#cbd7ce')
+                            radius: [dp(15), dp(15), dp(15), dp(15)]
+                            padding: ('10dp', '0dp', '10dp', '0dp')
+                            AnchorIcon:
+                                width: '50dp'
+                                ButtonIcon:
+                                    size: ['35dp', '35dp']
+                                    source: icon('camera')
+                                    on_release: PlantCamera().open()
+                            AnchorIcon:
+                                width: '50dp'
+                                ButtonIcon:
+                                    size: ['35dp', '35dp']
+                                    source: icon('qrcode')
+                                    on_release: QRCode().open()
+                    Image:
+                        source: image('plant-2', 'png')
+                        id: plant_image
+                        spacing: '40dp'
+                        padding: ('20dp', '35dp', '20dp', '0dp')
+
                 AnchorLayout:
                     anchor_y: 'center'
-                    padding_x: '30dp'
-                    OptionLabel:
-                        text: 'IP:'
-                        color: [0, 0, 0, 1]
-            BoxLayout:
+                    anchor_x: 'center'
+                    padding: [dp(15), 0, dp(30), 0]
+                    ColoredBoxLayout:
+                        padding: ('20dp', '20dp', '20dp', '20dp')
+                        size_hint_y: None
+                        height: self.minimum_height
+                        background_color: hex('#26201a')
+                        radius: [self.height/8]
+                        orientation: 'vertical'
+                        spacing: '20dp'
+                        LabelToScroll:
+                            text:'Dados da Planta:'
+                            halign: 'left'
+                        LabelToScroll:
+                            default_text: '{}'
+                            halign: 'left'
+                            padding_x: dp(40)
+                            id: plant_description
+                        
+                        LabelToScroll:
+                            default_text: 'Nome: {}'
+                            id: plant_name
+                            halign: 'left'
+                        LabelToScroll:
+                            default_text: 'Idade: {}'
+                            id: plant_years
+                            halign: 'left'
+                        LabelToScroll:
+                            default_text: 'Família: {}'
+                            id: plant_family
+                            halign: 'left'
+                        LabelToScroll:
+                            default_text: 'Gênero: {}'
+                            id: plant_genre
+                            halign: 'left'
+
+            ColoredBoxLayout:
                 size_hint_y: None
-                height: '180dp'
-                canvas.before:
-                    Color:
-                        rgba: hex('#4b548a')
-                    Rectangle:
-                        pos: self.pos
-                        size: self.size
-                
+                height: '30dp'
+                background_color: hex('#2c2c2c')
+                radius: [dp(10), dp(10), 0, 0]
+                OptionLabel:
+                    text: 'IP: 198.012.02.1'
+                    color: hex('#ebeef2')
+                    text_size: self.size
+                    halign: 'center'
+                    valign: 'center'
+            ColoredBoxLayout:
+                size_hint_y: None
+                height: '170dp'
+                background_color: hex('#014034')
+                padding: [0, dp(15), 0, 0]
                 GraphicCircular:
                     name: "Temperatura"
                     text: "{} °C"
@@ -238,17 +246,17 @@ Builder.load_string("""
                     text: "{} Lux"
                     id: lux_graph
                     max: 800
-        FloatLayout:
-            size_hint: None, None
-            size: 0, 0
-            AnchorIcon:
-                size_hint_y: None
-                size: root.box_widths[0], '70dp'
-                pos: root.x, box_icons.y+box_icons.height-self.height
-                ToggleButtonIcon:
-                    size: ['25dp', '25dp']
-                    source: icon('box-options')
-                    on_state: root.change_bar(self)
+            FloatLayout:
+                size_hint: None, None
+                size: 0, 0
+                AnchorIcon:
+                    size_hint_y: None
+                    size: root.box_widths[0], '70dp'
+                    pos: root.x, box_icons.y+box_icons.height-self.height
+                    ToggleButtonIcon:
+                        size: ['25dp', '25dp']
+                        source: icon('box-options')
+                        on_state: root.change_bar(self)
 
 """)
 
@@ -291,9 +299,12 @@ class UserPlant(Screen):
     def change_bar(self, toggle_icon):
         if toggle_icon.state == 'down':
             self.ids.box_icons.width = self.box_widths[1]
-            self.ids.top_box.padding[0] += self.box_widths[0]
+            self.ids.box_mid.padding = [self.box_widths[0], 0, 0, 0]
             return None
         
         self.ids.box_icons.width = self.box_widths[0]
-        self.ids.top_box.padding[0] -= self.box_widths[0]
-        
+        self.ids.box_mid.padding = [0, 0, 0, 0]
+    
+    def config_description(self, text, *args):
+        option_label = self.ids.plant_description
+        option_label.text = '\n'.join(map(lambda x: f"    {x}", text.split("\n")))

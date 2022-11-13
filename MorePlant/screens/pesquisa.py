@@ -1,8 +1,9 @@
 
 from kivy.lang import Builder
-from kivy.uix.screenmanager import Screen
+from utils import get_json
 from kivy.uix.boxlayout import BoxLayout
-from kivy.properties import StringProperty
+from uix.popup import BoxPopup
+from kivy.properties import StringProperty, ObjectProperty
 import json
 from utils import get_path, image
 from kivy.clock import Clock
@@ -30,6 +31,8 @@ Builder.load_string("""
     height: self.width
     padding: '20dp'
     source: ''
+    id_plant: ''
+    popup: None
     canvas.before:
         Color:
             rgba: hex("#43d9ca")
@@ -53,75 +56,68 @@ Builder.load_string("""
         radius_effect: [self.width]*4
         duration_in: 0.8
         duration_out: 0.4
+        on_release: app.root.chose_plant(root)
 
 
 <Pesquisa>:
+    box_background_color: hex('#002428')
+    overlay_color: [0, 0, 0, .7]
+    padding:
+        ['130dp', '70dp', '130dp', '70dp'] \
+        if app.root.width > dp(1300) and app.root.height > dp(600) \
+        else ['80dp', '30dp', '60dp', '30dp']
+    Label:
+        text:'Escolha uma planta'
+        font_size: '20sp'
+        bold: True
+        size_hint_y: None
+        height: '60dp'
     BoxLayout:
-        orientation: 'vertical'
-        padding: ['0dp', '15dp', '0dp', '0dp']
-        canvas.before:
-            Color:
-                rgba: hex('#002428')
-            Rectangle:
-                pos: self.pos
-                size: self.size
-        Label:
-            text:'Escolha uma planta'
-            font_size: '20sp'
-            bold: True
-            size_hint_y: None
-            height: '60dp'
-        BoxLayout:
-            padding: ['20dp', '20dp', '20dp', '20dp']
-            spacing: '15dp'
-            ScrollViewBar:
-                id: scroll
-                effect_cls: DampedScrollEffect
-                BoxLayout:
-                    orientation: 'vertical'
-                    padding: ['0dp', '15dp', '0dp', '0dp']
+        padding: ['20dp', '20dp', '20dp', '20dp']
+        spacing: '15dp'
+        ScrollViewBar:
+            id: scroll
+            effect_cls: DampedScrollEffect
+            BoxLayout:
+                orientation: 'vertical'
+                padding: ['0dp', '15dp', '0dp', '0dp']
+                size_hint_y: None
+                height: self.minimum_height
+                ResizableGrid:
                     size_hint_y: None
                     height: self.minimum_height
-                    ResizableGrid:
-                        size_hint_y: None
-                        height: self.minimum_height
-                        cols: 1
-                        max_size: [dp(180), dp(200)]
-                        id: grid_imgs
-            BarScroll:
-                scroll_view: scroll
-                radius: [dp(7), dp(7), dp(7), dp(7)]
-                bar_radius: [dp(3)]
-                bar_width: dp(7)
-                width: '15dp'
-        AnchorIcon:
-            size_hint_y: None
-            height: '70dp'
-            width: self.parent.width
-            ButtonIcon:
-                size: ['25dp', '25dp']
-                source: icon('return')
-                on_release: root.manager.current = "user"
+                    cols: 1
+                    max_size: [dp(130), dp(180)]
+                    id: grid_imgs
+        BarScroll:
+            scroll_view: scroll
+            radius: [dp(7), dp(7), dp(7), dp(7)]
+            bar_radius: [dp(3)]
+            bar_width: dp(7)
+            width: '15dp'
+    AnchorIcon:
+        size_hint_y: None
+        height: '70dp'
+        width: self.parent.width
+        ButtonIcon:
+            size: ['25dp', '25dp']
+            source: icon('return')
+            on_release: root.dismiss()
 """)
 
 class PlantCard(BoxLayout):
     source = StringProperty("")
+    id_plant = StringProperty("")
+    popup = ObjectProperty(None)
 
-class Pesquisa(Screen):
+class Pesquisa(BoxPopup):
     def __init__(self, **kw):
         super().__init__(**kw)
         Clock.schedule_once(self.config)
     
     def config(self, *args):
-        for k, v in self.get_json("config.json").items():
-            img = PlantCard(source=image(v['url']))
+        for k, v in get_json("config.json").items():
+            img = PlantCard(source=image(*v['url']), popup=self)
+            img.id_plant = k
             self.ids.grid_imgs.add_widget(img)
-        
-    def get_json(self, name, *args):
-        with open(get_path(name), 'r', encoding='utf-8') as file:
-            return json.load(file)
-
-    def update_json(self, new_json, name):
-        with open(get_path(name), 'w', encoding='utf-8') as file:
-            file.write(json.dumps(new_json, indent=4))
 

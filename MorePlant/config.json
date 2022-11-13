@@ -1,23 +1,23 @@
 {
     "Planta - 1" : {
-        "years": "",
-        "family": "",
-        "genre'": "",
-        "description": "",
-        "url": "plant-1"
+        "years": "Idade planta 1",
+        "family": "Familia planta 1",
+        "genre": "Gênero planta 1",
+        "description": "Descrição planta 1",
+        "url": ["plant-1", "png"]
     },
-    "Planta - 2" : {
-        "years": "",
-        "family": "",
-        "genre'": "",
-        "description": "",
-        "url": "plant-2"
+    "Filodendro-brasil" : {
+        "years": "1 Ano",
+        "family": "Araceae",
+        "genre": "Philodendron",
+        "description": "Philodendron é um género botânico pertencente à família das aráceas. Os frutos do filodendro dão pelo nome comum banana-ananás, são bagas que se desenvolvem a partir de uma espata. As espécies deste género possuem algumas utilidades graças à sua relativa toxicidade.",
+        "url": ["plant-2", "png"]
     },  
     "Planta - 3" : {
-        "years": "",
-        "family": "",
-        "genre'": "",
-        "description": "",
-        "url": "plant-0"
+        "years": "Idade planta 3",
+        "family": "Familia planta 3",
+        "genre": "Gênero planta 3",
+        "description": "Descrição planta 3",
+        "url": ["plant-0", "png"]
     }
 }
