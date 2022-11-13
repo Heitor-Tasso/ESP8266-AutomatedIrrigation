@@ -3,6 +3,7 @@ from kivy.metrics import dp
 from kivy.lang import Builder
 from kivy.uix.screenmanager import Screen
 from threading import Thread
+from uix.popup import TermsPopup
 
 Builder.load_string("""
 
@@ -60,7 +61,7 @@ Builder.load_string("""
                             orientation: 'vertical'
                             spacing: '10dp'
                             IconInput:
-                                id: input
+                                id: input_email_login
                                 radius: [0, 0, 0, 0]
                                 icon_left_source: icon('user')
                                 icon_left_size: [dp(30), dp(25)]
@@ -71,6 +72,7 @@ Builder.load_string("""
                                 input_height: dp(55)
                             Widget:
                             IconInput:
+                                id: input_pass_login
                                 radius: [0, 0, 0, 0]
                                 icon_left_source: icon('password')
                                 icon_left_size: [dp(30), dp(25)]
@@ -95,7 +97,7 @@ Builder.load_string("""
                             color_effect: light_gray
                             color_text: [1, 1, 1, 1]
                             radius: [0, 0, 0, 0]
-                            on_press: root.parent.current = root.parent.next()
+                            on_press: root.parent.login()
                     AnchorLayout:
                         anchor_x: 'center'
                         anchor_y: 'center'
@@ -147,7 +149,7 @@ Builder.load_string("""
                             orientation: 'vertical'
                             spacing: '5dp'
                             IconInput:
-                                id: input
+                                id: input_email_signin
                                 radius: [0, 0, 0, 0]
                                 icon_left_source: icon('user')
                                 icon_left_size: [dp(30), dp(25)]
@@ -158,6 +160,7 @@ Builder.load_string("""
                                 input_height: dp(55)
                             Widget:
                             IconInput:
+                                id: input_pass_signin
                                 radius: [0, 0, 0, 0]
                                 icon_left_source: icon('password')
                                 icon_left_size: [dp(30), dp(25)]
@@ -175,6 +178,7 @@ Builder.load_string("""
                             size: [self.minimum_width, dp(45)]
                             spacing: '10dp'
                             CheckBox:
+                                id: check_terms_signin
                                 size_hint_x: None
                                 width: '25dp'
                             Label:
@@ -184,7 +188,7 @@ Builder.load_string("""
                             LabelButton:
                                 text:'Termo e condições'
                                 color: hex('#87dd9e')
-                                on_release: principal_manager.current = 'Login'
+                                on_release: root.open_terms()
                                 size_hint_x: None
                                 width: self.texture_size[0]
                             Widget:
@@ -204,7 +208,7 @@ Builder.load_string("""
                             color_effect: light_gray
                             color_text: [1, 1, 1, 1]
                             radius: [0, 0, 0, 0]
-                            on_press: root.parent.current = root.parent.next()
+                            on_press: root.parent.signup()
                     AnchorLayout:
                         anchor_x: 'center'
                         anchor_y: 'center'
@@ -258,3 +262,6 @@ class Login(Screen):
             box.width = self.width/1.2
         if h >= dp(650):
             box.height = h/1.25
+
+    def open_terms(self, *args):
+        TermsPopup().open()

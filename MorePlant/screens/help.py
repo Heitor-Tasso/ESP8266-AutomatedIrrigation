@@ -1,6 +1,6 @@
 
 from kivy.lang import Builder
-from kivy.uix.screenmanager import Screen
+from uix.popup import BoxPopup
 from kivy.uix.boxlayout import BoxLayout
 from kivy.properties import ListProperty, NumericProperty
 from uix.buttons import ButtonEffect
@@ -71,84 +71,77 @@ Builder.load_string("""
                 on_release: root.update_content()
 
 <Help>:
+    box_background_color: hex('#002428')
     BoxLayout:
-        orientation: 'vertical'
-        canvas.before:
-            Color:
-                rgba: hex('#002428')
-            Rectangle:
-                pos: self.pos
-                size: self.size
-        BoxLayout:
-            ScrollViewBar:
-                id: scroll
-                effect_cls: DampedScrollEffect
+        ScrollViewBar:
+            id: scroll
+            effect_cls: DampedScrollEffect
+            BoxLayout:
+                size_hint_y: None
+                height: self.minimum_height
+                orientation: 'vertical'
                 BoxLayout:
                     size_hint_y: None
-                    height: self.minimum_height
-                    orientation: 'vertical'
-                    BoxLayout:
-                        size_hint_y: None
-                        height: '50dp'
-                        AnchorIcon:
-                            width: 0
-                            padding: ('60dp', 0, 0, 0)
-                            ButtonIcon:
-                                size: ['25dp', '25dp']
-                                source: icon('return')
-                                on_release: root.manager.current = "user"
-                        Label:
-                            font_size: '20sp'
-                            bold: True
-                            text:'Bem-vindo ao Eco Plantae!'
+                    height: '50dp'
+                    AnchorIcon:
+                        width: 0
+                        padding: ('60dp', 0, 0, 0)
+                        ButtonIcon:
+                            size: ['25dp', '25dp']
+                            source: icon('return')
+                            on_release: root.dismiss()
                     Label:
-                        size_hint_y: None
-                        height: '30dp'
-                        font_size: '15sp'
+                        font_size: '20sp'
                         bold: True
-                        text:'Qual a sua dúvida?'
-                    DropDownSelect:
+                        text:'Bem-vindo ao Eco Plantae!'
+                Label:
+                    size_hint_y: None
+                    height: '30dp'
+                    font_size: '15sp'
+                    bold: True
+                    text:'Qual a sua dúvida?'
+                DropDownSelect:
+                    text: 'Qr Code?'
+                    SectionDropDown:
+                        text: 'Esse App foi desenvolvido para atingir seu tempo'
+                    SectionDropDown:
+                    SectionDropDown:
+                    SectionDropDown:
+                DropDownSelect:
+                    text: 'Como funciona os sensores?'
+                    SectionDropDown:
                         text: 'Qr Code?'
-                        SectionDropDown:
-                            text: 'Esse App foi desenvolvido para atingir seu tempo'
-                        SectionDropDown:
-                        SectionDropDown:
-                        SectionDropDown:
-                    DropDownSelect:
-                        text: 'Como funciona os sensores?'
-                        SectionDropDown:
-                            text: 'Qr Code?'
-                        SectionDropDown:
-                    DropDownSelect:
-                        text: 'O que as cores no gráfico indica?'
-                        SectionDropDown:
-                        SectionDropDown:
-                    DropDownSelect:
-                        text: 'Quais os tipos de planta estão disponíveis no banco de dados?'
-                        SectionDropDown:
-                        SectionDropDown:
-                    DropDownSelect:
-                        text: 'Como trocar de planta?'
-                        SectionDropDown:
-                        SectionDropDown:
-                    DropDownSelect:
-                        text: 'Como descobrir a ordem da minha planta?'
-                        SectionDropDown:
-                        SectionDropDown:
-                    DropDownSelect:
-                        text: 'Quais cuidados devo ter com o protótipo?'
-                        SectionDropDown:
-                        SectionDropDown:
-            BarScroll:
-                scroll_view: scroll
-                radius: [0, 0, 0, 0]
-                bar_radius: [dp(3)]
-                bar_width: dp(7)
-                width: '15dp'
+                    SectionDropDown:
+                DropDownSelect:
+                    text: 'O que as cores no gráfico indica?'
+                    SectionDropDown:
+                    SectionDropDown:
+                DropDownSelect:
+                    text: 'Quais os tipos de planta estão disponíveis no banco de dados?'
+                    SectionDropDown:
+                    SectionDropDown:
+                DropDownSelect:
+                    text: 'Como trocar de planta?'
+                    SectionDropDown:
+                    SectionDropDown:
+                DropDownSelect:
+                    text: 'Como descobrir a ordem da minha planta?'
+                    SectionDropDown:
+                    SectionDropDown:
+                DropDownSelect:
+                    text: 'Quais cuidados devo ter com o protótipo?'
+                    SectionDropDown:
+                    SectionDropDown:
+        BarScroll:
+            scroll_view: scroll
+            radius: [0, 0, 0, 0]
+            bar_radius: [dp(3)]
+            bar_width: dp(7)
+            width: '15dp'
 """)
 
 
-class Help(Screen):
+class Help(BoxPopup):
     def __init__(self, **kw):
         super().__init__(**kw)
 

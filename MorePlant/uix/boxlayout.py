@@ -14,9 +14,9 @@ Builder.load_string("""
         Color:
             rgba: self.background_color
         RoundedRectangle:
-            pos:self.pos
-            size:self.size
-            radius:self.radius or [0, 0, 0, 0]
+            pos: self.pos
+            size: self.size
+            radius: self.radius or [0, 0, 0, 0]
     canvas.after:
         Color:
             rgba: self.stroke_color or [0, 0, 0, 0]

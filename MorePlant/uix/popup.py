@@ -1,151 +1,152 @@
 
 from kivy.uix.modalview import ModalView
 from uix.boxlayout import ColoredBoxLayout
-from kivy.uix.screenmanager import Screen
-from kivy.uix.boxlayout import BoxLayout
 from kivy.lang.builder import Builder
-from kivy.properties import ObjectProperty
+
 
 Builder.load_string("""
 
-#: import Icon uix.icons.Icon
-#: import ButtonIcon uix.icons.ButtonIcon
 #: import ColoredBoxLayout uix.boxlayout.ColoredBoxLayout
+#: import LabelToScroll uix.label.LabelToScroll
+#: import ButtonIcon uix.icons.ButtonIcon
+#: import ButtonEffect uix.buttons.ButtonEffect
 #: import ScrollViewBar uix.scrollview.ScrollViewBar
 #: import BarScroll uix.scrollview.BarScroll
-#: import InputIcon uix.input.InputIcon
-
-#: import FadeTransition kivy.uix.screenmanager.FadeTransition
-#: import icon utils.path.icon
-
-<ProjectTopBar>:
-    size_hint_y: None
-    height: '50dp'
-    background_color: hex('#0b1426')
-    radius: [dp(15), dp(15), 0, 0]
-    title: ''
-    screen: None
-    AnchorIcon:
-        Icon:
-            source: icon('tool_suport')
-            icon_size: '45dp', '45dp'
-    Label:
-        text: root.title
-        size_hint_x: None
-        width: self.texture_size[0]
-        font_size: '17sp'
-        bold: True
-    
-    Widget:
-    AnchorIcon:
-        ButtonIcon:
-            icon_source: icon('close')
-            size: '35dp', '35dp'
-            on_release: if root.screen is not None: root.screen.close_popup()
-
-<ScrollContentScreens>:
-    ScrollViewBar:
-        do_scroll_x: False
-        do_scroll_y: True
-        id: _scroll_examples
-        GridLayout:
-            cols: max(min(round(_scroll_examples.width/dp(200)), 4), 1)
-            size_hint_y: None
-            height: self.minimum_height
-            spacing: '30dp'
-            padding: ['0dp', '30dp', '0dp', '30dp']
-            id: _grid_screens
+#: import get_path utils.get_path
+#: import icon utils.icon
 
 
-<ConfigInputIcon@InputIcon>:
-    label_text: ''
-    line_color: [hex('b8bfc1'), hex('#06c7ff')]
-    input_height: dp(30)
-    radius: [dp(5)]
-    label_font_size: sp(15)
-    label_padding: [[dp(15), 0], [dp(-25), 0]]
-    label_bold: [False, True]
-
-
-<DropOptions>:
-    title: ''
-    padding: [0, 0, 0, dp(5)]
-    spacing: dp(5)
-    size_hint_y: None
-    height: dp(40) + _label.height
-    orientation: 'vertical'
-    canvas.before:
-        Color:
-            rgba: hex('#6d7071')
-        RoundedRectangle:
-            size: [self.width, dp(1.01)]
-            pos: [self.x, self.y]
-            
-    Label:
-        id: _label
-        text: root.title
-        bold: True
-        size_hint: [None, None]
-        size: self.texture_size
-        font_size: sp(13)
-    AnchorLayout:
-        padding: [dp(5), 0, dp(5), 0]
-        ColoredBoxLayout:
-            background_color: hex('#6d7071')[0:-1] + [0.7]
-            radius: [dp(4)]
-            padding: [dp(15), 0, 0, 0]
-            Label:
-                text: 'Kivy'
-                size_hint_x: None
-                width: self.texture_size[0]
-                font_size: sp(13)
-            Widget:
-            AnchorIcon:
-                width: dp(30)
-                ButtonIcon:
-                    size: [dp(15), dp(15)]
-                    icon_source: icon('play-white')
-
-
-
-<NewProjectPopup>:
+<BoxPopup>:
+    box_background_color: [0, 0, 0, 0]
+    box_padding: ['0dp', '15dp', '0dp', '0dp']
+    border: [0, 0, 0, 0]
     auto_dismiss: False
+    overlay_color: [0, 0, 0, 0]
+    background_color: [0, 0, 0, 0]
+    ColoredBoxLayout:
+        orientation: 'vertical'
+        padding: root.box_padding
+        background_color: root.box_background_color
+        radius: [dp(20), dp(20), dp(20), dp(20)]
+        id: _colored_box
+
+<TermsPopup>:
+    box_background_color: hex('#002428')
     padding:
         ['230dp', '110dp', '230dp', '110dp'] \
         if app.root.width > dp(1300) and app.root.height > dp(600) \
-        else ['100dp', '50dp', '100dp', '50dp']
-    canvas:
-        Clear:
-        Color:
-            rgba: [0, 0, 0, 0.75]
-        Rectangle:
-            pos:self.pos
-            size: self.size
-    ScreenManager:
-        transition: FadeTransition()
-        ConfigProjectScreen:
-            name: 'config_project'
-            popup: root
+        else ['80dp', '50dp', '80dp', '50dp']
+    Label:
+        text:'TERMO DE USO DE APLICATIVO'
+        font_size: '20sp'
+        bold: True
+        size_hint_y: None
+        height: '60dp'
+    BoxLayout:
+        padding: ['20dp', '20dp', '20dp', '20dp']
+        spacing: '15dp'
+        ScrollViewBar:
+            id: scroll
+            effect_cls: DampedScrollEffect
+            BoxLayout:
+                orientation: 'vertical'
+                padding: ['0dp', '15dp', '0dp', '0dp']
+                size_hint_y: None
+                height: self.minimum_height
+                LabelToScroll:
+                    text: ''
+                    on_kv_post:
+                        with open(get_path("terms.md"), "r", encoding="utf-8") as f: \
+                        self.text = f.read()
+                    id: terms_text
+                    
+        BarScroll:
+            scroll_view: scroll
+            radius: [dp(7), dp(7), dp(7), dp(7)]
+            bar_radius: [dp(3)]
+            bar_width: dp(7)
+            width: '15dp'
+    AnchorIcon:
+        size_hint_y: None
+        height: '70dp'
+        width: self.parent.width
+        ButtonIcon:
+            size: ['25dp', '25dp']
+            source: icon('return')
+            on_release: root.dismiss()
 
+<ConfirmPopup>:
+    box_background_color: hex("#038c73")
+    padding:
+        [dp(330), dp(210), dp(330), dp(210)] \
+        if app.root.width > dp(1300) and app.root.height > dp(600) \
+        else [dp(130), dp(100), dp(130), dp(100)]
+    box_padding: [0, 0, 0, 0]
+    overlay_color: [0, 0, 0, 0.7]
+    BoxLayout:
+        size_hint_y: None
+        height: self.minimum_height
+        ColoredBoxLayout:
+            size_hint_y: None
+            height: self.minimum_height
+            background_color: hex('#ebeef2')
+            radius: [dp(20), dp(20), 0, 0]
+            AnchorLayout:
+                anchor_y: 'center'
+                size_hint_y: None
+                height: lb_t.height + dp(10)
+                padding: [dp(10), 0, 0, 0]
+                LabelToScroll:
+                    text: "Alerta"
+                    font_size: "30sp"
+                    bold: True
+                    halign: 'left'
+                    valign: 'center'
+                    color: hex('#e06031')
+                    id: lb_t
+            AnchorIcon:
+                size_hint_y: None
+                height: lb_t.parent.height
+                ButtonIcon:
+                    size: ['35dp', '35dp']
+                    source: icon('close')
+                    on_release: root.dismiss()
+
+    AnchorLayout:
+        anchor_y: 'center'
+        LabelToScroll:
+            text: 'É necessário aceitar os termos de uso!'
+            font_size: "20sp"
+
+    AnchorLayout:
+        anchor_y: 'center'
+        anchor_x: 'center'
+        size_hint_y: None
+        height: 0 if not self.children else self.children[0].height + dp(30)
+        ButtonEffect:
+            text: "Continuar"
+            size_hint: None, None
+            size: '120dp', '55dp'
+            radius: [dp(15)]
+            background_color: hex('#2c2c2c')
+            bold: True
+            font_size: '17sp'
+            on_release: root.dismiss()
 """)
 
-class DropOptions(BoxLayout):
+
+
+
+class BoxPopup(ModalView):
+
+    def add_widget(self, widget, *args, **kwargs):
+        if isinstance(widget, ColoredBoxLayout):
+            return super().add_widget(widget, *args, **kwargs)
+        return self.ids._colored_box.add_widget(widget, *args, **kwargs)
+
+
+class TermsPopup(BoxPopup):
     pass
 
-class ProjectTopBar(ColoredBoxLayout):
+class ConfirmPopup(BoxPopup):
     pass
-
-class NewProjectPopup(ModalView):
-    pass
-
-class ConfigProjectScreen(Screen):
-    popup = ObjectProperty(None)
-
-    def close_popup(self, *args):
-        if self.popup is None:
-            return None
-        self.popup.dismiss()
-    
-    def start_project(self, *args):
-        self.close_popup()
-

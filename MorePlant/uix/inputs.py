@@ -61,6 +61,7 @@ Builder.load_string("""
                 anchor_y: 'center'
                 MyTextInput:
                     id: input
+                    text: root.input_text
                     window_root: root
                     background_color: [1, 1, 1, 0]
                     password: root.hide
@@ -148,6 +149,7 @@ class IconInput(AnchorLayout):
 
     input = ObjectProperty(None)
     text_input_color = ListProperty([1,1,1,1])
+    input_text = StringProperty("")
 
     __events__ = ('on_icon_right_press', 'on_icon_right_release', 'on_icon_left_press',
                   'on_icon_left_release', 'on_input_press', 'on_input_release', 

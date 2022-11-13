@@ -1,4 +1,5 @@
 import os
+import json
 
 def correct_path(path_filename:str):
     bar_init = '/' if path_filename.startswith('/') else ''
@@ -18,4 +19,12 @@ def icon(name, ext='png'):
 
 def image(name, ext='png'):
     return get_path(f'assets/images/{name}.{ext}')
+
+def get_json(name, *args):
+    with open(get_path(name), 'r', encoding='utf-8') as file:
+        return json.load(file)
+
+def update_json(new_json, name):
+    with open(get_path(name), 'w', encoding='utf-8') as file:
+        file.write(json.dumps(new_json, indent=4))
 

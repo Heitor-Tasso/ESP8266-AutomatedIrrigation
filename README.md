@@ -109,3 +109,6 @@ Esse projeto está sob licença. Veja o arquivo [LICENÇA](LICENSE.md) para mais
 
 [⬆ Voltar ao topo](#ESP8266-AutomatedIrrigation)<br>
 # ESP8266-AutomatedIrrigation
+
+Ver quantidade de linhas do código:
+ - (gci -include *.kv,*.py,*.ino,*.cpp,*.h,*.html,*.css -recurse | select-string .).Count
