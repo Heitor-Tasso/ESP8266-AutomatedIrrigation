@@ -12,10 +12,10 @@ unsigned long int last_time_updated = 0;
 #define PIN_TMP 1
 #define PIN_HUM 2
 
-#define MUX_0 10
+#define MUX_0 16
 #define MUX_1 5
-#define MUX_2 6
-#define MUX_3 7
+#define MUX_2 4
+#define MUX_3 0
 
 #define ANALOGIC_MUX A0
 
@@ -38,7 +38,8 @@ void login_form() {
 }
 
 int read_luminosity() {
-  int value = 100 - ((analogRead(PIN_LDR) - 189)*100/271);
+  write_in_mux(PIN_LDR);
+  int value = 100 - ((analogRead(ANALOGIC_MUX) - 189)*100/271);
   if (value > 100) { value = 100; }
   else if (value < 0) { value = 0; }
 
@@ -47,7 +48,8 @@ int read_luminosity() {
 }
 
 int read_temperature() {
-  int value = 100 - ((analogRead(PIN_TMP) - 189)*100/271);
+  write_in_mux(PIN_TMP);
+  int value = 100 - ((analogRead(ANALOGIC_MUX) - 189)*100/271);
   if (value > 100) { value = 100; }
   else if (value < 0) { value = 0; }
 
@@ -56,7 +58,8 @@ int read_temperature() {
 }
 
 int read_humidity() {
-  int value = 100 - ((analogRead(PIN_HUM) - 189)*100/271);
+  write_in_mux(PIN_HUM);
+  int value = 100 - ((analogRead(ANALOGIC_MUX) - 189)*100/271);
   if (value > 100) { value = 100; }
   else if (value < 0) { value = 0; }
 
@@ -79,12 +82,12 @@ void setup() {
 
   Serial.begin(9600);
   
-  // pinMode(MUX_0, OUTPUT);
-  // pinMode(MUX_1, OUTPUT);
-  // pinMode(MUX_2, OUTPUT);
-  // pinMode(MUX_3, OUTPUT);
+  pinMode(MUX_0, OUTPUT);
+  pinMode(MUX_1, OUTPUT);
+  pinMode(MUX_2, OUTPUT);
+  pinMode(MUX_3, OUTPUT);
 
-  // pinMode(ANALOGIC_MUX, INPUT);
+  pinMode(ANALOGIC_MUX, INPUT);
 
   WiFi.mode(WIFI_AP_STA);  // Mode ACCESS POINT && STATION ACCESS
   start_local_wifi();      // Start STATION ACCESS

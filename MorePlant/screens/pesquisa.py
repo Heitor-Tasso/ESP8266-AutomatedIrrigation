@@ -4,8 +4,7 @@ from utils import get_json
 from kivy.uix.boxlayout import BoxLayout
 from uix.popup import BoxPopup
 from kivy.properties import StringProperty, ObjectProperty
-import json
-from utils import get_path, image
+from utils import image
 from kivy.clock import Clock
 
 Builder.load_string("""
