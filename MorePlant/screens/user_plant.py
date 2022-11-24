@@ -7,11 +7,11 @@ from kivy.clock import Clock
 from kivy.properties import NumericProperty, ListProperty
 from uix.triggers import BTrigger
 from random import randint
+from threading import Thread
+import requests
 
 Builder.load_string("""
 
-#:import IconInput uix.inputs.IconInput
-#:import ButtonEffect uix.buttons.ButtonEffect
 #:import ButtonIcon uix.icons.ButtonIcon
 #:import ColoredBoxLayout uix.boxlayout.ColoredBoxLayout
 
@@ -23,10 +23,9 @@ Builder.load_string("""
 #:import Help screens.help.Help
 #:import QRCode uix.camera.QRCode
 #:import PlantCamera uix.camera.PlantCamera
-#:import Label kivy.core.text.Label
+#:import CoreLabel kivy.core.text.Label
 #:import LabelToScroll uix.label.LabelToScroll
 
-#:import Clock kivy.clock.Clock
 #:import Window kivy.core.window.Window
 
 <OptionLabel@Label>:
@@ -76,7 +75,7 @@ Builder.load_string("""
                     value: root.value
                     widget_size: round(self.parent.width)
                     pos: self.parent.pos
-                    label: Label(text=root.text, font_size=sp(20))
+                    label: CoreLabel(text=root.text, font_size=sp(20))
         OptionLabel:
             id: label
             text: root.name
@@ -170,7 +169,7 @@ Builder.load_string("""
                                     source: icon('qrcode')
                                     on_release: QRCode().open()
                     Image:
-                        source: image('plant-2', 'png')
+                        source: ""
                         id: plant_image
                         spacing: '40dp'
                         padding: ('20dp', '35dp', '20dp', '0dp')
@@ -199,10 +198,6 @@ Builder.load_string("""
                         LabelToScroll:
                             default_text: 'Nome: {}'
                             id: plant_name
-                            halign: 'left'
-                        LabelToScroll:
-                            default_text: 'Idade: {}'
-                            id: plant_years
                             halign: 'left'
                         LabelToScroll:
                             default_text: 'Família: {}'
@@ -277,16 +272,28 @@ class UserPlant(Screen):
 
     box_widths = ListProperty([0, 0])
 
-    def __init__(self, **kw):
-        super().__init__(**kw)
-        Clock.schedule_once(self.start)
-
-    def start(self, *args):
-        self.change_graph()
-        Clock.schedule_interval(self.change_graph, 3)
+    def on_enter(self, *args):
+        self.updatge_graph()
         
+    def on_leave(self, *args):
+        Clock.unschedule(self.updatge_graph)
     
+    def updatge_graph(self, *args):
+        th = Thread(target=self.change_graph)
+        th.start()
+
     def change_graph(self, *args):
+        try:
+            r = requests.get("http://IP//value")
+            if r.content:
+                print("json -=> ", r.json())
+                print("content -=> ", r.content)
+                Clock.unschedule(self.updatge_graph)
+                Clock.schedule_interval(self.updatge_graph, 1)
+                return None
+        except requests.exceptions.ConnectionError:
+            print("Can't get sensors values.")
+
         anim1 = Animation(value=randint(0, self.ids.lux_graph.max), d=1)
         anim1.start(self.ids.lux_graph)
         
@@ -295,6 +302,8 @@ class UserPlant(Screen):
         
         anim2 = Animation(value=randint(0, self.ids.humidity_graph.max), d=2)
         anim2.start(self.ids.humidity_graph)
+        Clock.unschedule(self.updatge_graph)
+        Clock.schedule_interval(self.updatge_graph, 5)
 
     def change_bar(self, toggle_icon):
         if toggle_icon.state == 'down':
@@ -308,3 +317,4 @@ class UserPlant(Screen):
     def config_description(self, text, *args):
         option_label = self.ids.plant_description
         option_label.text = '\n'.join(map(lambda x: f"    {x}", text.split("\n")))
+

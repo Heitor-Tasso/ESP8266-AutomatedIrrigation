@@ -9,22 +9,15 @@ from kivy.clock import Clock
 
 Builder.load_string("""
 
-#:import IconInput uix.inputs.IconInput
 #:import ToggleButtonIcon uix.icons.ToggleButtonIcon
 #:import ButtonIcon uix.icons.ButtonIcon
 #:import ScrollViewBar uix.scrollview.ScrollViewBar
 #:import BarScroll uix.scrollview.BarScroll
-
-#:import DampedScrollEffect kivy.effects.dampedscroll.DampedScrollEffect
-
-#:import icon utils.icon
-#:import image utils.image
-
-#:import CircularProgressBar uix.circular_bar.CircularProgressBar
 #:import LabelButton uix.label.LabelButton
 
-#:import Clock kivy.clock.Clock
-#:import Window kivy.core.window.Window
+#:import DampedScrollEffect kivy.effects.dampedscroll.DampedScrollEffect
+#:import icon utils.icon
+
 
 <SectionDropDown>:
     text: 'Section Option'
@@ -72,6 +65,7 @@ Builder.load_string("""
 
 <Help>:
     box_background_color: hex('#002428')
+    box_padding: [0, 0, 0, 0]
     BoxLayout:
         ScrollViewBar:
             id: scroll

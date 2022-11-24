@@ -52,7 +52,7 @@ Builder.load_string("""
                 icon_source: root.icon_left_source
                 icon_color: root.icon_left_color
                 pos_color: root.icon_left_color_pos
-                state_sources: root.icon_left_state_sources
+                icon_state_source: root.icon_left_state_sources
                 color_effect: root.icon_left_effect_color
                 state_button: root.icon_left_state
         AnchorLayout:
@@ -88,7 +88,7 @@ Builder.load_string("""
                 size: root.icon_right_size
                 pos_source: root.icon_right_pos_source
                 icon_source: root.icon_right_source
-                state_sources: root.icon_right_state_sources
+                icon_state_source: root.icon_right_state_sources
                 icon_color: root.icon_right_color
                 pos_color: root.icon_right_color_pos
                 color_effect: root.icon_right_effect_color
@@ -123,7 +123,7 @@ class IconInput(AnchorLayout):
 
     icon_left = ObjectProperty(None)
     icon_left_state = StringProperty('toggle')#'toggle' or 'button'
-    icon_left_color = ListProperty([1,1,1,1])
+    icon_left_color = ListProperty([1, 1, 1, 1])
     icon_left_pos_source = StringProperty('')
     icon_left_source = StringProperty('')
     icon_left_color_pos = ListProperty([-1, -1, -1, -1])
@@ -133,7 +133,7 @@ class IconInput(AnchorLayout):
 
     icon_right = ObjectProperty(None)
     icon_right_state = StringProperty('toggle')#'toggle' or 'button'
-    icon_right_color = ListProperty([1,1,1,1])
+    icon_right_color = ListProperty([1, 1, 1, 1])
     icon_right_pos_source = StringProperty('')
     icon_right_state_sources = ListProperty(['', ''])
     icon_right_source = StringProperty('')
@@ -143,12 +143,13 @@ class IconInput(AnchorLayout):
 
     label_text = StringProperty('')
     label_font_size = NumericProperty(dp(16))
-    label_defaut_color = ListProperty([1,1,1,1])
-    label_pos_color = ListProperty([1,1,1,1])
+    label_defaut_color = ListProperty([1, 1, 1, 1])
+    label_pos_color = ListProperty([1, 1, 1, 1])
     state_label = StringProperty('')
 
     input = ObjectProperty(None)
-    text_input_color = ListProperty([1,1,1,1])
+    hide = ObjectProperty(False)
+    text_input_color = ListProperty([1, 1, 1, 1])
     input_text = StringProperty("")
 
     __events__ = ('on_icon_right_press', 'on_icon_right_release', 'on_icon_left_press',

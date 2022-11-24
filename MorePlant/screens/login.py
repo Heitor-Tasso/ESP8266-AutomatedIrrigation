@@ -9,7 +9,6 @@ Builder.load_string("""
 
 #:import IconInput uix.inputs.IconInput
 #:import ButtonEffect uix.buttons.ButtonEffect
-#:import ButtonIcon uix.icons.ButtonIcon
 #:import LabelButton uix.label.LabelButton
 
 #:import icon utils.icon
@@ -80,6 +79,10 @@ Builder.load_string("""
                                 label_text: 'Senha'
                                 label_pos_color: green
                                 input_height: dp(55)
+                                icon_right_state_sources: [icon('unsee_eye'), icon('see_eye')]
+                                icon_right_size: [dp(30), dp(30)]
+                                hide: True
+                                on_icon_right_release: self.hide = not self.hide
 
                     Widget:
                         size_hint_y: None
@@ -168,6 +171,10 @@ Builder.load_string("""
                                 label_text: 'Senha'
                                 label_pos_color: green
                                 input_height: dp(55)
+                                icon_right_state_sources: [icon('unsee_eye'), icon('see_eye')]
+                                icon_right_size: [dp(30), dp(30)]
+                                hide: True
+                                on_icon_right_release: self.hide = not self.hide
                     AnchorLayout:
                         anchor_x: 'center'
                         anchor_y: 'center'

@@ -1,23 +1,110 @@
 {
-    "Planta - 1" : {
-        "years": "Idade planta 1",
-        "family": "Familia planta 1",
-        "genre": "Gênero planta 1",
-        "description": "Descrição planta 1",
-        "url": ["plant-1", "png"]
+    "Dalia Bronze": {
+        "family": "Asteraceae",
+        "genre": "Dahlia",
+        "description": "É uma herbácea de porte médio, perene",
+        "url": [
+            "Dalia-BRONZE",
+            "png"
+        ]
     },
-    "Filodendro-brasil" : {
-        "years": "1 Ano",
-        "family": "Araceae",
-        "genre": "Philodendron",
-        "description": "Philodendron é um género botânico pertencente à família das aráceas. Os frutos do filodendro dão pelo nome comum banana-ananás, são bagas que se desenvolvem a partir de uma espata. As espécies deste género possuem algumas utilidades graças à sua relativa toxicidade.",
-        "url": ["plant-2", "png"]
-    },  
-    "Planta - 3" : {
-        "years": "Idade planta 3",
-        "family": "Familia planta 3",
-        "genre": "Gênero planta 3",
-        "description": "Descrição planta 3",
-        "url": ["plant-0", "png"]
+    "Dalia Cherish Rosa": {
+        "family": "Asteraceae",
+        "genre": "Dahlia",
+        "description": "É uma herbácea de porte médio, perene",
+        "url": [
+            "Dalia-CHERISH-PINK",
+            "png"
+        ]
+    },
+    "Dalia Laranja": {
+        "family": "Asteraceae",
+        "genre": "Dahlia",
+        "description": "É uma herbácea de porte médio, perene",
+        "url": [
+            "Dalia-ORANGE",
+            "png"
+        ]
+    },
+    "Dalia Vermelha": {
+        "family": "Asteraceae",
+        "genre": "Dahlia",
+        "description": "É uma herbácea de porte médio, perene",
+        "url": [
+            "Dalia-RED",
+            "png"
+        ]
+    },
+    "Dalia Vermelha Velvet": {
+        "family": "Asteraceae",
+        "genre": "Dahlia",
+        "description": "É uma herbácea de porte médio, perene",
+        "url": [
+            "Dalia-RED-VELVET",
+            "png"
+        ]
+    },
+    "Dalia Rosa Bicolor": {
+        "family": "Asteraceae",
+        "genre": "Dahlia",
+        "description": "É uma herbácea de porte médio, perene",
+        "url": [
+            "Dalia-ROSE-BICOLOR",
+            "png"
+        ]
+    },
+    "Dalia Branca": {
+        "family": "Asteraceae",
+        "genre": "Dahlia",
+        "description": "É uma herbácea de porte médio, perene",
+        "url": [
+            "Dalia-WHITE",
+            "png"
+        ]
+    },
+    "Dalia Amarela": {
+        "family": "Geraniaceae",
+        "genre": "Dahlia",
+        "description": "É uma herbácea de porte médio, perene",
+        "url": [
+            "Dalia-YELLOW",
+            "png"
+        ]
+    },
+    "Gerânio Rosa": {
+        "family": "Asteraceae",
+        "genre": "Pelargonium",
+        "description": "É um híbrido",
+        "url": [
+            "Gerânio-Rosa",
+            "png"
+        ]
+    },
+    "Gerânio Vermelha": {
+        "family": "Asteraceae",
+        "genre": "Pelargonium",
+        "description": "É um híbrido",
+        "url": [
+            "Gerânio-Vermelha",
+            "png"
+        ]
+    },
+    "Tulipa Vermelha": {
+        "family": "Liliaceae",
+        "genre": "Pelargonium",
+        "description": "São ervas terrícolas, perenes, rizomatosas e bulbosas.",
+        "url": [
+            "Tulipa-Vermelha",
+            "png"
+        ]
+    },
+    "Tulipa Laranja": {
+        "family": "Liliaceae",
+        "genre": "Pelargonium",
+        "description": "São ervas terrícolas, perenes, rizomatosas e bulbosas.",
+        "url": [
+            "Tulipa-Laranja",
+            "png"
+        ]
     }
 }
