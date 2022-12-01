@@ -66,6 +66,7 @@ Builder.load_string("""
                                 icon_left_size: [dp(30), dp(25)]
                                 line_color: hex('#749f9d')
                                 label_text: 'E-mail'
+                                input_text: "Teste"
                                 label_pos_color: green
                                 on_enter: root.start_thread_login()
                                 input_height: dp(55)
@@ -77,6 +78,7 @@ Builder.load_string("""
                                 icon_left_size: [dp(30), dp(25)]
                                 line_color: hex('#749f9d')
                                 label_text: 'Senha'
+                                input_text: "1234"
                                 label_pos_color: green
                                 input_height: dp(55)
                                 icon_right_state_sources: [icon('unsee_eye'), icon('see_eye')]

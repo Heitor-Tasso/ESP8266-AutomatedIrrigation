@@ -2,6 +2,7 @@
 from kivy.uix.modalview import ModalView
 from uix.boxlayout import ColoredBoxLayout
 from kivy.lang.builder import Builder
+from kivy.properties import StringProperty
 
 
 Builder.load_string("""
@@ -18,6 +19,7 @@ Builder.load_string("""
 
 <BoxPopup>:
     box_background_color: [0, 0, 0, 0]
+    box_radius:  [dp(20), dp(20), dp(20), dp(20)]
     box_padding: ['0dp', '15dp', '0dp', '0dp']
     border: [0, 0, 0, 0]
     auto_dismiss: False
@@ -27,7 +29,7 @@ Builder.load_string("""
         orientation: 'vertical'
         padding: root.box_padding
         background_color: root.box_background_color
-        radius: [dp(20), dp(20), dp(20), dp(20)]
+        radius: root.box_radius
         id: _colored_box
 
 <TermsPopup>:
@@ -75,7 +77,7 @@ Builder.load_string("""
             source: icon('return')
             on_release: root.dismiss()
 
-<ConfirmPopup>:
+<BaseInfoPopup>:
     box_background_color: hex("#038c73")
     padding:
         [dp(330), dp(210), dp(330), dp(210)] \
@@ -83,6 +85,10 @@ Builder.load_string("""
         else [dp(130), dp(100), dp(130), dp(100)]
     box_padding: [0, 0, 0, 0]
     overlay_color: [0, 0, 0, 0.7]
+
+<ConfirmPopup>:
+    msg: "É necessário aceitar os termos de uso!"
+    title: "Alerta"
     BoxLayout:
         size_hint_y: None
         height: self.minimum_height
@@ -97,7 +103,7 @@ Builder.load_string("""
                 height: lb_t.height + dp(10)
                 padding: [dp(10), 0, 0, 0]
                 LabelToScroll:
-                    text: "Alerta"
+                    text: root.title
                     font_size: "30sp"
                     bold: True
                     halign: 'left'
@@ -115,7 +121,7 @@ Builder.load_string("""
     AnchorLayout:
         anchor_y: 'center'
         LabelToScroll:
-            text: 'É necessário aceitar os termos de uso!'
+            text: root.msg
             font_size: "20sp"
 
     AnchorLayout:
@@ -132,6 +138,7 @@ Builder.load_string("""
             bold: True
             font_size: '17sp'
             on_release: root.dismiss()
+
 """)
 
 
@@ -145,9 +152,13 @@ class BoxPopup(ModalView):
         return self.ids._colored_box.add_widget(widget, *args, **kwargs)
 
 
+class BaseInfoPopup(BoxPopup):
+    pass
+
 class TermsPopup(BoxPopup):
     pass
 
-class ConfirmPopup(BoxPopup):
-    pass
+class ConfirmPopup(BaseInfoPopup):
+    msg = StringProperty("É necessário aceitar os termos de uso!")
+    title = StringProperty("Alerta")
 

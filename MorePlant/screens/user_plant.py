@@ -4,11 +4,12 @@ from kivy.uix.screenmanager import Screen
 from kivy.uix.anchorlayout import AnchorLayout
 from kivy.animation import Animation
 from kivy.clock import Clock
-from kivy.properties import NumericProperty, ListProperty
+from kivy.properties import NumericProperty, ListProperty, StringProperty
 from uix.triggers import BTrigger
 from random import randint
 from threading import Thread
-import requests
+from kivy.app import App
+import requests, json
 
 Builder.load_string("""
 
@@ -20,11 +21,13 @@ Builder.load_string("""
 
 #:import CircularProgressBar uix.circular_bar.CircularProgressBar
 #:import Pesquisa screens.pesquisa.Pesquisa
+#:import EspIPS screens.pesquisa.EspIPS
 #:import Help screens.help.Help
 #:import QRCode uix.camera.QRCode
 #:import PlantCamera uix.camera.PlantCamera
 #:import CoreLabel kivy.core.text.Label
 #:import LabelToScroll uix.label.LabelToScroll
+#:import LabelButton uix.label.LabelButton
 
 #:import Window kivy.core.window.Window
 
@@ -161,13 +164,13 @@ Builder.load_string("""
                                 ButtonIcon:
                                     size: ['35dp', '35dp']
                                     source: icon('camera')
-                                    on_release: PlantCamera().open()
+                                    on_release: PlantCamera(callback=root.callback_camera).open()
                             AnchorIcon:
                                 width: '50dp'
                                 ButtonIcon:
                                     size: ['35dp', '35dp']
                                     source: icon('qrcode')
-                                    on_release: QRCode().open()
+                                    on_release: QRCode(callback=root.callback_qrcode).open()
                     Image:
                         source: ""
                         id: plant_image
@@ -213,12 +216,16 @@ Builder.load_string("""
                 height: '30dp'
                 background_color: hex('#2c2c2c')
                 radius: [dp(10), dp(10), 0, 0]
-                OptionLabel:
-                    text: 'IP: 198.012.02.1'
+                LabelButton:
+                    id: lbl_ip
+                    text: "Aperte para escolher o ESP."
+                    default_text: 'IP: {}'
                     color: hex('#ebeef2')
                     text_size: self.size
                     halign: 'center'
                     valign: 'center'
+                    padding_y: '30dp'
+                    on_release: EspIPS().open()
             ColoredBoxLayout:
                 size_hint_y: None
                 height: '170dp'
@@ -283,27 +290,33 @@ class UserPlant(Screen):
         th.start()
 
     def change_graph(self, *args):
+        url = f"http://{App.get_running_app().root.ip}/server/values"
+
         try:
-            r = requests.get("http://IP//value")
-            if r.content:
-                print("json -=> ", r.json())
-                print("content -=> ", r.content)
+            resp = requests.get(url, timeout=0.1).content.decode("UTF-8")
+            if resp:
+                dic = json.loads(resp.replace('=', '":').replace('",', ', ').replace('"}', '}'))
+                
+                anim1 = Animation(value=(dic['lux_value']/100)*self.ids.lux_graph.max, d=1)
+                anim1.start(self.ids.lux_graph)
+                
+                anim2 = Animation(value=(dic['celsius_value']/100)*self.ids.celsius_graph.max, d=1.5)
+                anim2.start(self.ids.celsius_graph)
+                
+                anim2 = Animation(value=(dic['humidity_value']/100)*self.ids.humidity_graph.max, d=2)
+                anim2.start(self.ids.humidity_graph)
+                
                 Clock.unschedule(self.updatge_graph)
-                Clock.schedule_interval(self.updatge_graph, 1)
+                Clock.schedule_interval(self.updatge_graph, 2)
                 return None
         except requests.exceptions.ConnectionError:
             print("Can't get sensors values.")
+        except requests.exceptions.InvalidURL:
+            print("Url inválida.")
 
-        anim1 = Animation(value=randint(0, self.ids.lux_graph.max), d=1)
-        anim1.start(self.ids.lux_graph)
-        
-        anim2 = Animation(value=randint(0, self.ids.celsius_graph.max), d=1.5)
-        anim2.start(self.ids.celsius_graph)
-        
-        anim2 = Animation(value=randint(0, self.ids.humidity_graph.max), d=2)
-        anim2.start(self.ids.humidity_graph)
         Clock.unschedule(self.updatge_graph)
         Clock.schedule_interval(self.updatge_graph, 5)
+
 
     def change_bar(self, toggle_icon):
         if toggle_icon.state == 'down':
@@ -313,8 +326,15 @@ class UserPlant(Screen):
         
         self.ids.box_icons.width = self.box_widths[0]
         self.ids.box_mid.padding = [0, 0, 0, 0]
-    
+
+
     def config_description(self, text, *args):
         option_label = self.ids.plant_description
         option_label.text = '\n'.join(map(lambda x: f"    {x}", text.split("\n")))
 
+
+    def callback_qrcode(self, url_qrcode):
+        pass
+
+    def callback_camera(self, photo_url):
+        pass

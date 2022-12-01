@@ -1,6 +1,7 @@
 __all__ = ['IconInput', 'MyTextInput']
 
 from kivy.animation import Animation
+from kivy.input.providers.mouse import MouseMotionEvent
 from kivy.clock import Clock
 from kivy.lang import Builder
 from kivy.metrics import dp, sp
@@ -62,6 +63,7 @@ Builder.load_string("""
                 MyTextInput:
                     id: input
                     text: root.input_text
+                    on_text: root.input_text = self.text
                     window_root: root
                     background_color: [1, 1, 1, 0]
                     password: root.hide
@@ -106,10 +108,13 @@ Builder.load_string("""
 """)
 
 class MyTextInput(TextInput):
-    window_root = ObjectProperty()
+    window_root = ObjectProperty(None)
     def insert_text(self, substring, from_undo=False):
-        self.window_root.dispatch('on_input_text')
-        return super(MyTextInput, self).insert_text(substring, from_undo=from_undo)
+        r =  super(MyTextInput, self).insert_text(substring, from_undo=from_undo)
+
+        if self.window_root != None:
+            self.window_root.dispatch('on_input_text', substring, from_undo)
+        return r
 
 class IconInput(AnchorLayout):
     line_color = ListProperty([1,1,1,1])
@@ -168,6 +173,22 @@ class IconInput(AnchorLayout):
     
     def on_icon_left_state(self, *args):
         pass
+
+
+    def select(self, *args):
+        self.input.focus = True
+        touch = MouseMotionEvent(None, 123, args=(1, 1))  # args are device, id, spos
+        touch.button = 'left'
+        touch.pos = [self.center_x, self.center_y]
+        self.dispatch('on_touch_down', touch)
+    
+    def un_select(self, *args):
+        self.input.focus = False
+        touch = MouseMotionEvent(None, 123, args=(1, 1))  # args are device, id, spos
+        touch.button = 'left'
+        touch.pos = [self.center_x, self.center_y]
+        self.dispatch('on_touch_up', touch)
+
 
     def icon_down(self, button, *args):
         if button.state_button == 'toggle':
@@ -272,7 +293,7 @@ class IconInput(AnchorLayout):
     def on_input_release(self): pass
 
     def on_init_input(self): pass
-    def on_input_text(self, *args): pass
+    def on_input_text(self, substring, from_undo): pass
     def on_enter(self, *args): pass
 
     def on_pos(self, *args):

@@ -8,14 +8,14 @@ unsigned int time_to_update = 0;
 bool need_to_update = false;
 unsigned long int last_time_updated = 0;
 
-#define PIN_LDR 0
-#define PIN_TMP 1
-#define PIN_HUM 2
+#define PIN_LDR 0  // C0
+#define PIN_TMP 1  // C1
+#define PIN_HUM 2  // C2
 
-#define MUX_0 16
-#define MUX_1 5
-#define MUX_2 4
-#define MUX_3 0
+#define MUX_0 16 // D0
+#define MUX_1 5  // D1
+#define MUX_2 4  // D2
+#define MUX_3 0  // D3
 
 #define ANALOGIC_MUX A0
 
@@ -36,6 +36,15 @@ void login_form() {
     handle_page("/index.html?login=invalid");
   }
 }
+
+
+void write_in_mux(int index) {
+  digitalWrite(MUX_0, bitRead(index, 0));
+  digitalWrite(MUX_1, bitRead(index, 1));
+  digitalWrite(MUX_2, bitRead(index, 2));
+  digitalWrite(MUX_3, bitRead(index, 3));
+}
+
 
 int read_luminosity() {
   write_in_mux(PIN_LDR);
