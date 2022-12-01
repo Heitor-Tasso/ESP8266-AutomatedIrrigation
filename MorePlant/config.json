@@ -1,8 +1,26 @@
 {
+    "Suculenta Echeveria": {
+        "family": "Crassulaceae",
+        "genre": "Echeveria",
+        "description": "É perene, é encontrada no Texas, México e América do Sul, são plantas que acumulam água em um ou mais de um dos seus tecidos e fazem isso por serem nativas de regiões secas, assim, mantêm uma reserva para os períodos sem chuva. Como as plantas liberam água, elas podem aumentar a umidade da sua casa.",
+        "url": [
+            "SuculentaEcheveria",
+            "png"
+        ]
+    },
+    "Suculenta Cactaceae": {
+        "family": "Crassulaceae",
+        "genre": "Echeveria",
+        "description": "É perene, é encontrada no Texas, México e América do Sul, são plantas que acumulam água em um ou mais de um dos seus tecidos e fazem isso por serem nativas de regiões secas, assim, mantêm uma reserva para os períodos sem chuva. Como as plantas liberam água, elas podem aumentar a umidade da sua casa.",
+        "url": [
+            "SuculentaCactaceae",
+            "png"
+        ]
+    },
     "Dalia Bronze": {
         "family": "Asteraceae",
         "genre": "Dahlia",
-        "description": "É uma herbácea de porte médio, perene",
+        "description": "É uma herbácea de porte médio, perene e trepadeiras, é nativa da América Central, podem ser de diversas cores, como branco, amarelo, laranja, vermelho e rosa",
         "url": [
             "Dalia-BRONZE",
             "png"
@@ -11,7 +29,7 @@
     "Dalia Cherish Rosa": {
         "family": "Asteraceae",
         "genre": "Dahlia",
-        "description": "É uma herbácea de porte médio, perene",
+        "description": "É uma herbácea de porte médio, perene e trepadeiras, é nativa da América Central, podem ser de diversas cores, como branco, amarelo, laranja, vermelho e rosa",
         "url": [
             "Dalia-CHERISH-PINK",
             "png"
@@ -20,7 +38,7 @@
     "Dalia Laranja": {
         "family": "Asteraceae",
         "genre": "Dahlia",
-        "description": "É uma herbácea de porte médio, perene",
+        "description": "É uma herbácea de porte médio, perene e trepadeiras, é nativa da América Central, podem ser de diversas cores, como branco, amarelo, laranja, vermelho e rosa",
         "url": [
             "Dalia-ORANGE",
             "png"
@@ -29,7 +47,7 @@
     "Dalia Vermelha": {
         "family": "Asteraceae",
         "genre": "Dahlia",
-        "description": "É uma herbácea de porte médio, perene",
+        "description": "É uma herbácea de porte médio, perene e trepadeiras, é nativa da América Central, podem ser de diversas cores, como branco, amarelo, laranja, vermelho e rosa",
         "url": [
             "Dalia-RED",
             "png"
@@ -38,7 +56,7 @@
     "Dalia Vermelha Velvet": {
         "family": "Asteraceae",
         "genre": "Dahlia",
-        "description": "É uma herbácea de porte médio, perene",
+        "description": "É uma herbácea de porte médio, perene e trepadeiras, é nativa da América Central, podem ser de diversas cores, como branco, amarelo, laranja, vermelho e rosa",
         "url": [
             "Dalia-RED-VELVET",
             "png"
@@ -47,7 +65,7 @@
     "Dalia Rosa Bicolor": {
         "family": "Asteraceae",
         "genre": "Dahlia",
-        "description": "É uma herbácea de porte médio, perene",
+        "description": "É uma herbácea de porte médio, perene e trepadeiras, é nativa da América Central, podem ser de diversas cores, como branco, amarelo, laranja, vermelho e rosa",
         "url": [
             "Dalia-ROSE-BICOLOR",
             "png"
@@ -56,7 +74,7 @@
     "Dalia Branca": {
         "family": "Asteraceae",
         "genre": "Dahlia",
-        "description": "É uma herbácea de porte médio, perene",
+        "description": "É uma herbácea de porte médio, perene e trepadeiras, é nativa da América Central, podem ser de diversas cores, como branco, amarelo, laranja, vermelho e rosa",
         "url": [
             "Dalia-WHITE",
             "png"
@@ -65,25 +83,25 @@
     "Dalia Amarela": {
         "family": "Geraniaceae",
         "genre": "Dahlia",
-        "description": "É uma herbácea de porte médio, perene",
+        "description": "É uma herbácea de porte médio, perene e trepadeiras, é nativa da América Central, podem ser de diversas cores, como branco, amarelo, laranja, vermelho e rosa",
         "url": [
             "Dalia-YELLOW",
             "png"
         ]
     },
     "Gerânio Rosa": {
-        "family": "Asteraceae",
+        "family": "Geraniaceae",
         "genre": "Pelargonium",
-        "description": "É um híbrido",
+        "description": "Planta herbácea com aparência arbustiva de caule ereto, muito ramificado, folhas alternas de longo pecíolo, arredondadas, cordadas ou em forma de ferradura de consistência macia, bordas denteadas ou serrilhadas, nervuras marcadas, podendo apresentar manchas circulares em marrom, verde mais escuro, amarelas, vermelhas.",
         "url": [
             "Gerânio-Rosa",
             "png"
         ]
     },
     "Gerânio Vermelha": {
-        "family": "Asteraceae",
+        "family": "Geraniaceae",
         "genre": "Pelargonium",
-        "description": "É um híbrido",
+        "description": "Planta herbácea com aparência arbustiva de caule ereto, muito ramificado, folhas alternas de longo pecíolo, arredondadas, cordadas ou em forma de ferradura de consistência macia, bordas denteadas ou serrilhadas, nervuras marcadas, podendo apresentar manchas circulares em marrom, verde mais escuro, amarelas, vermelhas.",
         "url": [
             "Gerânio-Vermelha",
             "png"
@@ -91,8 +109,8 @@
     },
     "Tulipa Vermelha": {
         "family": "Liliaceae",
-        "genre": "Pelargonium",
-        "description": "São ervas terrícolas, perenes, rizomatosas e bulbosas.",
+        "genre": "Tulipa",
+        "description": "São ervas terrícolas, perenes, rizomatosas e bulbosas, formadas por uma única flor em cada haste, com folhas alongadas, apresentando seis pétalas ou na forma com pétalas dobradas, existem diversas cores  vermelha, rosa, branca, amarela e roxa.",
         "url": [
             "Tulipa-Vermelha",
             "png"
@@ -100,8 +118,8 @@
     },
     "Tulipa Laranja": {
         "family": "Liliaceae",
-        "genre": "Pelargonium",
-        "description": "São ervas terrícolas, perenes, rizomatosas e bulbosas.",
+        "genre": "Tulipa",
+        "description": "São ervas terrícolas, perenes, rizomatosas e bulbosas, formadas por uma única flor em cada haste, com folhas alongadas, apresentando seis pétalas ou na forma com pétalas dobradas, existem diversas cores  vermelha, rosa, branca, amarela e roxa.",
         "url": [
             "Tulipa-Laranja",
             "png"

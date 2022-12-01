@@ -111,6 +111,16 @@ Builder.load_string("""
                                 size: ['25dp', '25dp']
                                 source: icon('settings')
                                 on_release: root.start_scann()
+                
+                AnchorIcon:
+                    size_hint_y: None
+                    height: '40dp'
+                    width: self.parent.width
+                    ButtonIcon:
+                        size: ['25dp', '25dp']
+                        source: icon('return')
+                        on_release: root.dismiss()
+
                 AnchorLayout:
                     anchor_x: 'center'
                     anchor_y: 'center'
@@ -207,6 +217,7 @@ Builder.load_string("""
                                 on_release: root.start_scann()
                         Widget:
 
+
 <QRCode>:
     on_pre_open: camera.connect_camera()
     on_pre_dismiss: camera.disconnect_camera()
@@ -299,13 +310,13 @@ Builder.load_string("""
                 BoxLayout:
                     size_hint_y: None
                     height: '70dp'
-                    padding: ['0dp', '0dp', '0dp', '50dp']
+                    padding: ['0dp', '0dp', '0dp', '15dp']
                     Widget:
                     AnchorIcon:
                         background_color: hex('#333333')
                         radius: [self.width/2] * 4
                         size_hint_y: None
-                        size: ['80dp', '80dp']
+                        size: ['70dp', '70dp']
                         ButtonIcon:
                             size: ['45dp', '45dp']
                             source: icon('qrcode')
@@ -319,6 +330,14 @@ Builder.load_string("""
                                     size: self.size
                                     radius: [self.width/6] * 4
                     Widget:
+                AnchorIcon:
+                    size_hint_y: None
+                    height: '50dp'
+                    width: self.parent.width
+                    ButtonIcon:
+                        size: ['25dp', '25dp']
+                        source: icon('return')
+                        on_release: root.dismiss()
 
 """)
 
@@ -331,11 +350,13 @@ class PlantCamera(BoxPopup):
     camera = ObjectProperty(None)
     sc_prop = ListProperty([0, 0, 0, 0])
     started_scan = False
+    callback = lambda *a: None
 
-    def __init__(self, **kwargs):
+    def __init__(self, callback, **kwargs):
         super().__init__(**kwargs)
         Clock.schedule_once(self.config)
-    
+        self.callback = callback
+
     def config(self, *args):
         self.camera = self.ids.camera
         
@@ -376,10 +397,12 @@ class QRCode(BoxPopup):
     camera = ObjectProperty(None)
     sc_prop = ListProperty([0, 0, 0, 0])
     started_scan = False
+    callback = lambda *a: None
 
-    def __init__(self, **kwargs):
+    def __init__(self, callback, **kwargs):
         super().__init__(**kwargs)
         Clock.schedule_once(self.config)
+        self.callback = callback
     
     def config(self, *args):
         self.camera = self.ids.camera
@@ -418,8 +441,8 @@ class QRCode(BoxPopup):
 
     def end_scann(self, *args):
         self.started_scan = False
-        print("read_qrcode -=> ", self.read_qrcode())
-        Clock.schedule_once(self.next_screen, 1)
-    
-    def next_screen(self, *args):
-        self.dismiss()
+        result = self.read_qrcode()
+        print("read_qrcode -=> ", result)
+        if result != None:
+            self.dismiss()
+            self.callback(result)
